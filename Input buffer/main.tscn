@@ -1,3 +1,21 @@
-[gd_scene format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 1337.07, 0, 88.4346, 100 )
+
+[sub_resource type="RectangleShape2D" id=2]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Dino" type="Sprite" parent="."]
+position = Vector2( 145, 206 )
+texture = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="Dino"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Area2D"]
+shape = SubResource( 2 )
