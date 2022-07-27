@@ -11,6 +11,7 @@ config_version=4
 [application]
 
 config/name="Input buffer"
+run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
 [physics]
