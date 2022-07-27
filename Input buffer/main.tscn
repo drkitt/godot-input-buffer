@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 
@@ -8,6 +8,11 @@ atlas = ExtResource( 1 )
 region = Rect2( 1337.07, 0, 88.4346, 100 )
 
 [sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -19,3 +24,26 @@ texture = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Area2D"]
 shape = SubResource( 2 )
+
+[node name="Treadmill" type="Node2D" parent="."]
+
+[node name="Obstacle 1" type="Node2D" parent="Treadmill"]
+
+[node name="Ground 1" type="Sprite" parent="Treadmill"]
+position = Vector2( 1297, 251 )
+texture = SubResource( 3 )
+
+[node name="Ground 2" type="Sprite" parent="Treadmill"]
+position = Vector2( 3696, 251 )
+texture = SubResource( 3 )
+
+[node name="Left edge" type="Polygon2D" parent="."]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
+vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
+
+[node name="Right edge" type="Polygon2D" parent="."]
+position = Vector2( 923, 0 )
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
+vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
