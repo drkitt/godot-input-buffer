@@ -14,6 +14,10 @@ config/name="Input buffer"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+InputBuffer="*res://input_buffer.gd"
+
 [physics]
 
 common/enable_pause_aware_picking=true
