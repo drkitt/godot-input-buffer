@@ -59,12 +59,12 @@ public class Dino : Sprite
 
                 if (Position.y < 0)
                 {
-                    // In the air
+                    // In the air.
                     _speed += _gravity * delta;
                 }
                 else
                 {
-                    // Hit the ground
+                    // Hit the ground.
                     Position = Vector2.Zero;
                     _speed = 0;
                     _state = DinoState.Running;
