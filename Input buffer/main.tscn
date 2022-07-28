@@ -65,6 +65,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": ""
 }
+_speed = 400.0
 
 [node name="Obstacle 1" type="Node2D" parent="Treadmill"]
 
