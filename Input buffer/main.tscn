@@ -4,6 +4,11 @@
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
 [ext_resource path="res://Dino.cs" type="Script" id=3]
 
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
+
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
@@ -53,27 +58,7 @@ tracks/0/keys = {
 "values": [ SubResource( 1 ), SubResource( 7 ) ]
 }
 
-[sub_resource type="AtlasTexture" id=3]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
-
 [node name="Node2D" type="Node2D"]
-
-[node name="Dino" type="Sprite" parent="."]
-position = Vector2( 145, 206 )
-texture = SubResource( 1 )
-script = ExtResource( 3 )
-
-[node name="Area2D" type="Area2D" parent="Dino"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Area2D"]
-shape = SubResource( 2 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Dino"]
-autoplay = "Idle + Jump"
-"anims/Idle + Jump" = SubResource( 4 )
-anims/Run = SubResource( 5 )
 
 [node name="Treadmill" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -101,3 +86,20 @@ position = Vector2( 923, 0 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
+
+[node name="Dino base" type="Node2D" parent="."]
+position = Vector2( 145, 206 )
+
+[node name="Dino" type="Sprite" parent="Dino base"]
+texture = SubResource( 1 )
+script = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="Dino base/Dino"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dino base/Dino/Area2D"]
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Dino base/Dino"]
+autoplay = "Idle + Jump"
+"anims/Idle + Jump" = SubResource( 4 )
+anims/Run = SubResource( 5 )
