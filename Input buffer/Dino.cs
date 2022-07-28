@@ -7,10 +7,11 @@ using System;
 public class Dino : Sprite
 {
     private static readonly string JUMP_ACTION = "ui_select";
-
+    
     private enum DinoState
     {
         Idle,
+        Jumping,
         Running,
         Dead
     }
@@ -21,7 +22,10 @@ public class Dino : Sprite
     [Export] private float _speed = 0;
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at. </summary>
     [Export] private float _gravity = 2400f;
-    /// <summary> Pixels per second downward the dino moves the moment it jumps. </summary>
+    /// <summary>
+    /// Pixels per second downward the dino moves the moment it jumps.
+    /// Recall that the coordinate system has the positive y axis point down, so this should be negative.
+    /// </summary>
     [Export] private float _initial_jump_speed = -800f;
 
     /// <summary>
@@ -44,33 +48,40 @@ public class Dino : Sprite
             {
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
-                    _state = DinoState.Running;
+                    _state = DinoState.Jumping;
                     _animator.Play("Run");
+                }
+                break;
+            }
+            case DinoState.Jumping:
+            {
+                Position += Vector2.Down * _speed * delta;
+
+                if (Position.y < 0)
+                {
+                    // In the air
+                    _speed += _gravity * delta;
+                }
+                else
+                {
+                    // Hit the ground
+                    Position = Vector2.Zero;
+                    _speed = 0;
+                    _state = DinoState.Running;
                 }
                 break;
             }
             case DinoState.Running:
             {
-                // Apply forces. The dino is considered grounded if its transform's y is at least 0.
-                Position += Vector2.Down * _speed * delta;
-                if (Position.y >= 0)
-                {
-                    Position = Vector2.Zero;
-                    _speed = 0;
-                }
-                else
-                {
-                    _speed += _gravity * delta;
-                }
-
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _speed = _initial_jump_speed;
+                    _state = DinoState.Jumping;
                 }
                 break;
             }
 
-            default: throw new InvalidOperationException("Unhandled state " + _state);
+            default: throw new InvalidOperationException("Unhandled state: " + _state);
         }
     }
 }
