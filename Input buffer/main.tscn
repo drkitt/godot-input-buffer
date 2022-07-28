@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
+[ext_resource path="res://Treadmill.cs" type="Script" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -26,6 +27,11 @@ texture = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Treadmill" type="Node2D" parent="."]
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+_speed = 10.0
 
 [node name="Obstacle 1" type="Node2D" parent="Treadmill"]
 
