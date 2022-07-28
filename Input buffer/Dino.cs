@@ -12,9 +12,9 @@ public class Dino : Sprite
     /// <summary> Pixels per second the dino currently moves downward. </summary>
     [Export] private float _speed = 0;
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at. </summary>
-    [Export] private float _gravity = 80;
+    [Export] private float _gravity = 2400f;
     /// <summary> Pixels per second downward the dino moves the moment it jumps. </summary>
-    [Export] private float _initial_jump_speed = -80;
+    [Export] private float _initial_jump_speed = -800f;
 
     /// <summary> 
     /// Called when the node enters the scene tree for the first time.
@@ -33,7 +33,7 @@ public class Dino : Sprite
     public override void _Process(float delta)
     {
         // Apply forces. The dino is considered grounded if its transform's y is at least 0.
-        Position += Vector2.Down * _speed;
+        Position += Vector2.Down * _speed * delta;
         if (Position.y >= 0)
         {
             Position = Vector2.Zero;
@@ -41,7 +41,7 @@ public class Dino : Sprite
         }
         else
         {
-            _speed += _gravity;
+            _speed += _gravity * delta;
         }
         
         if (Input.IsActionJustPressed("ui_select"))

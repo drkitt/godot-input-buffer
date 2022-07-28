@@ -93,7 +93,6 @@ position = Vector2( 145, 206 )
 [node name="Dino" type="Sprite" parent="Dino base"]
 texture = SubResource( 1 )
 script = ExtResource( 3 )
-_initial_jump_speed = -100.0
 
 [node name="Area2D" type="Area2D" parent="Dino base/Dino"]
 
