@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Controls the ground and the obstacles that the dino runs through.
+/// </summary>
 public class Treadmill : Node2D
 {
     /// <summary> Pixels per second the ground moves at. </summary>
