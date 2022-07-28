@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -9,12 +9,16 @@ flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
 
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 49.75, 299.75 )
+
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1514.3, 0, 86.632, 100 )
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 43.316, 50 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
@@ -82,11 +86,23 @@ color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
 
+[node name="Area2D" type="Area2D" parent="Left edge"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left edge/Area2D"]
+position = Vector2( 50.25, 300.25 )
+shape = SubResource( 8 )
+
 [node name="Right edge" type="Polygon2D" parent="."]
 position = Vector2( 923, 0 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
+
+[node name="Area2D" type="Area2D" parent="Right edge"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right edge/Area2D"]
+position = Vector2( 50.25, 300.25 )
+shape = SubResource( 8 )
 
 [node name="Dino base" type="Node2D" parent="."]
 position = Vector2( 145, 206 )
