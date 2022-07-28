@@ -7,7 +7,7 @@ using System;
 public class Dino : Sprite
 {
     private static readonly string JUMP_ACTION = "ui_select";
-    
+
     private enum DinoState
     {
         Idle,
@@ -16,7 +16,7 @@ public class Dino : Sprite
     }
     private DinoState _state = DinoState.Idle;
     private AnimationPlayer _animator;
-    
+
     /// <summary> Pixels per second the dino currently moves downward. </summary>
     [Export] private float _speed = 0;
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at. </summary>
@@ -24,14 +24,12 @@ public class Dino : Sprite
     /// <summary> Pixels per second downward the dino moves the moment it jumps. </summary>
     [Export] private float _initial_jump_speed = -800f;
 
-    /// <summary> 
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
     {
         _animator = GetNode<AnimationPlayer>("AnimationPlayer");
-        
-        _animator.Play("Run");
     }
 
     /// <summary>
@@ -47,6 +45,7 @@ public class Dino : Sprite
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _state = DinoState.Running;
+                    _animator.Play("Run");
                 }
                 break;
             }
@@ -63,14 +62,14 @@ public class Dino : Sprite
                 {
                     _speed += _gravity * delta;
                 }
-                
+
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _speed = _initial_jump_speed;
                 }
                 break;
             }
-            
+
             default: throw new InvalidOperationException("Unhandled state " + _state);
         }
     }
