@@ -6,7 +6,15 @@ using System;
 /// </summary>
 public class Dino : Sprite
 {
-    /// <summary> Plays animations. </summary>
+    private static readonly string JUMP_ACTION = "ui_select";
+    
+    private enum DinoState
+    {
+        Idle,
+        Running,
+        Dead
+    }
+    private DinoState _state = DinoState.Idle;
     private AnimationPlayer _animator;
     
     /// <summary> Pixels per second the dino currently moves downward. </summary>
@@ -32,21 +40,38 @@ public class Dino : Sprite
     /// <param name="delta"> The elapsed time since the previous frame. </param>
     public override void _Process(float delta)
     {
-        // Apply forces. The dino is considered grounded if its transform's y is at least 0.
-        Position += Vector2.Down * _speed * delta;
-        if (Position.y >= 0)
+        switch (_state)
         {
-            Position = Vector2.Zero;
-            _speed = 0;
-        }
-        else
-        {
-            _speed += _gravity * delta;
-        }
-        
-        if (Input.IsActionJustPressed("ui_select"))
-        {
-            _speed = _initial_jump_speed;
+            case DinoState.Idle:
+            {
+                if (Input.IsActionJustPressed(JUMP_ACTION))
+                {
+                    _state = DinoState.Running;
+                }
+                break;
+            }
+            case DinoState.Running:
+            {
+                // Apply forces. The dino is considered grounded if its transform's y is at least 0.
+                Position += Vector2.Down * _speed * delta;
+                if (Position.y >= 0)
+                {
+                    Position = Vector2.Zero;
+                    _speed = 0;
+                }
+                else
+                {
+                    _speed += _gravity * delta;
+                }
+                
+                if (Input.IsActionJustPressed(JUMP_ACTION))
+                {
+                    _speed = _initial_jump_speed;
+                }
+                break;
+            }
+            
+            default: throw new InvalidOperationException("Unhandled state " + _state);
         }
     }
 }
