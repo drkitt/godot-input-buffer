@@ -3,6 +3,7 @@
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
 [ext_resource path="res://Dino.cs" type="Script" id=3]
+[ext_resource path="res://Ground.cs" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
@@ -10,12 +11,9 @@ atlas = ExtResource( 1 )
 region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 14.274, 8.5 )
+extents = Vector2( 1200, 8.5 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 49.75, 299.75 )
-
-[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 49.75, 299.75 )
 
 [sub_resource type="AtlasTexture" id=1]
@@ -84,17 +82,28 @@ _groundPath2 = NodePath("Ground 2")
 [node name="Ground 1" type="Sprite" parent="Treadmill"]
 position = Vector2( 1297, 251 )
 texture = SubResource( 3 )
+script = ExtResource( 4 )
+_otherGroundPath = NodePath("../Ground 2")
 
 [node name="Area2D" type="Area2D" parent="Treadmill/Ground 1"]
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 1/Area2D"]
 position = Vector2( 0, 14.5 )
 shape = SubResource( 8 )
 
 [node name="Ground 2" type="Sprite" parent="Treadmill"]
-visible = false
-position = Vector2( 3696, 251 )
+position = Vector2( 3697, 251 )
 texture = SubResource( 3 )
+script = ExtResource( 4 )
+_otherGroundPath = NodePath("../Ground 1")
+
+[node name="Area2D" type="Area2D" parent="Treadmill/Ground 2"]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/Area2D"]
+position = Vector2( 0.5, 14.5 )
+shape = SubResource( 8 )
 
 [node name="Left edge" type="Polygon2D" parent="."]
 color = Color( 0, 0, 0, 1 )
@@ -102,6 +111,8 @@ polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
 
 [node name="Area2D" type="Area2D" parent="Left edge"]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Left edge/Area2D"]
 position = Vector2( 50.25, 300.25 )
@@ -112,12 +123,6 @@ position = Vector2( 923, 0 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
-
-[node name="Area2D" type="Area2D" parent="Right edge"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right edge/Area2D"]
-position = Vector2( 50.25, 300.25 )
-shape = SubResource( 10 )
 
 [node name="Dino base" type="Node2D" parent="."]
 position = Vector2( 145, 206 )
@@ -135,3 +140,6 @@ shape = SubResource( 2 )
 autoplay = "Idle + Jump"
 "anims/Idle + Jump" = SubResource( 4 )
 anims/Run = SubResource( 5 )
+
+[connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="WrapGround"]
+[connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="WrapGround"]
