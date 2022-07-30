@@ -7,7 +7,7 @@ using System;
 public class Dino : KinematicBody2D
 {
     private static readonly string JUMP_ACTION = "ui_select";
-    
+
     private enum DinoState
     {
         Idle,
@@ -52,7 +52,6 @@ public class Dino : KinematicBody2D
         switch (_state)
         {
             case DinoState.Idle:
-            {
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _state = DinoState.Jumping;
@@ -61,9 +60,7 @@ public class Dino : KinematicBody2D
                     _animator.Play("Run");
                 }
                 break;
-            }
             case DinoState.Jumping:
-            {
                 // Short-hop if the player releases the jump button while rising
                 if (Input.IsActionJustReleased(JUMP_ACTION) && _velocity.Dot(Vector2.Up) > 0)
                 {
@@ -84,9 +81,7 @@ public class Dino : KinematicBody2D
                     _state = DinoState.Running;
                 }
                 break;
-            }
             case DinoState.Running:
-            {
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _velocity = _initial_jump_speed * Vector2.Up;
@@ -94,7 +89,6 @@ public class Dino : KinematicBody2D
                     _state = DinoState.Jumping;
                 }
                 break;
-            }
             default: throw new InvalidOperationException("Unhandled state: " + _state);
         }
     }

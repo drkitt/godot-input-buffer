@@ -14,7 +14,7 @@ public class Treadmill : Node2D
     /// The sprites used for the ground.
     /// </summary>
     private Node2D _ground1, _ground2; [Export] private NodePath _groundPath1, _groundPath2;
-    
+
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
