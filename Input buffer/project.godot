@@ -12,7 +12,7 @@ config_version=4
 
 config/name="Input buffer"
 run/main_scene="res://main.tscn"
-config/icon="res://icon.png"
+config/icon="res://cooler_icon.png"
 
 [autoload]
 
