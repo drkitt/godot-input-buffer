@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// The game's brave protagonist.
 /// </summary>
-public class Dino : Sprite
+public class Dino : KinematicBody2D
 {
     private static readonly string JUMP_ACTION = "ui_select";
     
@@ -16,32 +16,33 @@ public class Dino : Sprite
         Dead
     }
     private DinoState _state = DinoState.Idle;
-    private AnimationPlayer _animator;
+    private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
+    private Vector2 _velocity;
 
-    /// <summary> Pixels per second the dino currently moves downward. </summary>
-    [Export] private float _speed = 0;
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at. </summary>
     [Export] private float _gravity = 2400f;
     /// <summary>
     /// Pixels per second downward the dino moves the moment it jumps.
     /// Recall that the coordinate system has the positive y axis point down, so this should be negative.
     /// </summary>
-    [Export] private float _initial_jump_speed = -800f;
+    [Export] private float _initial_jump_speed = 800f;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
     {
-        _animator = GetNode<AnimationPlayer>("AnimationPlayer");
+        _animator = GetNode<AnimationPlayer>(_animation_player_path);
     }
 
     /// <summary>
-    /// Called every frame.
+    /// Called during the physics processing step of the main loop.
     /// </summary>
-    /// <param name="delta"> The elapsed time since the previous frame. </param>
-    public override void _Process(float delta)
+    /// <param name="delta"> The elapsed time since the previous physics step. </param>
+    public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
+
         switch (_state)
         {
             case DinoState.Idle:
@@ -49,24 +50,17 @@ public class Dino : Sprite
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _state = DinoState.Jumping;
+                    _velocity = _initial_jump_speed * Vector2.Up;
                     _animator.Play("Run");
                 }
                 break;
             }
             case DinoState.Jumping:
             {
-                Position += Vector2.Down * _speed * delta;
-
-                if (Position.y < 0)
+                _velocity += _gravity * delta * Vector2.Down;
+                MoveAndSlide(_velocity, Vector2.Up);
+                if (IsOnFloor())
                 {
-                    // In the air.
-                    _speed += _gravity * delta;
-                }
-                else
-                {
-                    // Hit the ground.
-                    Position = Vector2.Zero;
-                    _speed = 0;
                     _state = DinoState.Running;
                 }
                 break;
@@ -75,7 +69,7 @@ public class Dino : Sprite
             {
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
-                    _speed = _initial_jump_speed;
+                    _velocity = _initial_jump_speed * Vector2.Up;
                     _state = DinoState.Jumping;
                 }
                 break;
