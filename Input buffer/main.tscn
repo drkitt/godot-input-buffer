@@ -77,24 +77,26 @@ _speed = 400.0
 _groundPath1 = NodePath("Ground 1")
 _groundPath2 = NodePath("Ground 2")
 
-[node name="Obstacle 1" type="Node2D" parent="Treadmill"]
-
 [node name="Ground 1" type="Sprite" parent="Treadmill"]
-position = Vector2( 1297, 251 )
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 100, 251 )
 texture = SubResource( 3 )
+centered = false
 script = ExtResource( 4 )
 _otherGroundPath = NodePath("../Ground 2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
+position = Vector2( 1199, 28 )
 __meta__ = {
 "_editor_description_": "Used to stop the dino from falling through the ground"
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 1/StaticBody2D"]
-position = Vector2( 0, 14.5 )
 shape = SubResource( 8 )
 
 [node name="Area2D" type="Area2D" parent="Treadmill/Ground 1"]
+position = Vector2( 1199, 28 )
 collision_layer = 0
 collision_mask = 4
 __meta__ = {
@@ -102,25 +104,29 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 1/Area2D"]
-position = Vector2( 0, 14.5 )
 shape = SubResource( 8 )
 
+[node name="Obstacles" type="Position2D" parent="Treadmill/Ground 1"]
+position = Vector2( -1200, -8 )
+
 [node name="Ground 2" type="Sprite" parent="Treadmill"]
-position = Vector2( 3697, 251 )
+position = Vector2( 2500, 251 )
 texture = SubResource( 3 )
+centered = false
 script = ExtResource( 4 )
 _otherGroundPath = NodePath("../Ground 1")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 2"]
+position = Vector2( 1199, 28 )
 __meta__ = {
 "_editor_description_": "Used to stop the dino from falling through the ground"
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/StaticBody2D"]
-position = Vector2( 0.5, 14.5 )
 shape = SubResource( 8 )
 
 [node name="Area2D" type="Area2D" parent="Treadmill/Ground 2"]
+position = Vector2( 1199, 28 )
 collision_layer = 0
 collision_mask = 4
 __meta__ = {
@@ -128,7 +134,6 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/Area2D"]
-position = Vector2( 0.5, 14.5 )
 shape = SubResource( 8 )
 
 [node name="Left edge" type="Polygon2D" parent="."]

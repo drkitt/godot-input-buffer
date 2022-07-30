@@ -26,5 +26,25 @@ public class Ground : Sprite
     private void WrapGround(Area2D area)
     {
         Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
+        SpawnObstacles();
+    }
+
+    private void SpawnObstacles(int startPos = 500)
+    {
+        // Min/max pixels between obstacles
+        const int MIN_OFFSET = 80, MAX_OFFSET = 400;
+        // The current position to spawn an obstacle at
+        int currentPos = startPos;
+        RandomNumberGenerator rng = new RandomNumberGenerator();
+
+        while (currentPos <= Texture.GetWidth())
+        {
+            PackedScene obstacleScene = GD.Load<PackedScene>("res://obstacle.tscn");
+            Node2D obstacle = obstacleScene.Instance<Node2D>();
+            obstacle.Position = new Vector2(currentPos, 0);
+            AddChild(obstacle);
+
+            currentPos += rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
+        }
     }
 }
