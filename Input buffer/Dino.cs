@@ -10,12 +10,11 @@ public class Dino : KinematicBody2D
 
     private enum DinoState
     {
-        Idle,
+        Grounded,
         Jumping,
-        Running,
         Dead
     }
-    private DinoState _state = DinoState.Idle;
+    private DinoState _state = DinoState.Grounded;
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
     private Vector2 _velocity;
     private float _gravity;
@@ -51,7 +50,7 @@ public class Dino : KinematicBody2D
 
         switch (_state)
         {
-            case DinoState.Idle:
+            case DinoState.Grounded:
                 if (Input.IsActionJustPressed(JUMP_ACTION))
                 {
                     _state = DinoState.Jumping;
@@ -78,15 +77,7 @@ public class Dino : KinematicBody2D
                 MoveAndSlide(_velocity, Vector2.Up);
                 if (IsOnFloor())
                 {
-                    _state = DinoState.Running;
-                }
-                break;
-            case DinoState.Running:
-                if (Input.IsActionJustPressed(JUMP_ACTION))
-                {
-                    _velocity = _initial_jump_speed * Vector2.Up;
-                    _gravity = _regular_gravity;
-                    _state = DinoState.Jumping;
+                    _state = DinoState.Grounded;
                 }
                 break;
             default: throw new InvalidOperationException("Unhandled state: " + _state);
