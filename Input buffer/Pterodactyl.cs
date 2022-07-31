@@ -18,7 +18,7 @@ public class Pterodactyl : Sprite
         switch (weFlyHigh)
         {
             case 0: // Ground level.
-                Position = new Vector2(Position.x, -40);
+                Position = new Vector2(Position.x, -20);
                 break;
             case 1: // Medium height, avoid by ducking.
                 Position = new Vector2(Position.x, -80);

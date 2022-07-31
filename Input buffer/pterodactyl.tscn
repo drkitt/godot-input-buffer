@@ -15,7 +15,7 @@ region = Rect2( 352.66, -6.221, 91.161, 88.372 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "Fly"
-length = 0.5
+length = 0.4
 loop = true
 step = 0.05
 tracks/0/type = "value"
@@ -25,7 +25,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = false
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ SubResource( 1 ), SubResource( 2 ) ]
@@ -37,7 +37,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.25 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Rect2( 260.043, -6.221, 91.161, 88.372 ), Rect2( 352, -6.221, 91.161, 88.372 ) ]
@@ -51,4 +51,5 @@ region_rect = Rect2( 260.043, -6.221, 91.161, 88.372 )
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Fly"
 anims/Fly = SubResource( 3 )
