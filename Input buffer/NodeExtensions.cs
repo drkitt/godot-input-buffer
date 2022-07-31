@@ -26,10 +26,5 @@ namespace ExtensionMethods
             }
             return toReturn;
         }
-
-        public static int dummy(this Node node)
-        {
-            return 2;
-        }
     }
 }
