@@ -12,6 +12,9 @@ public class Ground : Sprite
     /// </summary>
     private Ground _otherGround; [Export] private NodePath _otherGroundPath;
 
+    /// <summary> The obstacles that can appear on the ground </summary>
+    [Export] private PackedScene _cactus, _cactusClump, _pterodactyl;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -29,7 +32,7 @@ public class Ground : Sprite
         SpawnObstacles();
     }
 
-    private void SpawnObstacles(int startPos = 500)
+    private void SpawnObstacles(int startPos = 400)
     {
         // Min/max pixels between obstacles
         const int MIN_OFFSET = 80, MAX_OFFSET = 400;
@@ -39,10 +42,29 @@ public class Ground : Sprite
 
         while (currentPos <= Texture.GetWidth())
         {
-            PackedScene obstacleScene = GD.Load<PackedScene>("res://obstacle.tscn");
+            PackedScene obstacleScene;
+            float r = rng.Randf();
+            if (r < 1 / 3f)
+            {
+                obstacleScene = _cactus;
+            }
+            else if (r < 2 / 3f)
+            {
+                obstacleScene = _cactusClump;
+            }
+            else
+            {
+                obstacleScene = _pterodactyl;
+            }
+
+
+            // :O
+            obstacleScene = _cactus;
+
+
             Node2D obstacle = obstacleScene.Instance<Node2D>();
-            obstacle.Position = new Vector2(currentPos, 0);
-            AddChild(obstacle);
+            obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
+            CallDeferred("add_child", obstacle);
 
             currentPos += rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
         }
