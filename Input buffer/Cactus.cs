@@ -17,9 +17,7 @@ public class Cactus : Node2D
         int spriteIndex = rng.RandiRange(0, sprites.Count - 1);
         for (int i = 0; i < sprites.Count; i++)
         {
-            GD.Print(i == spriteIndex);
             ((Sprite)sprites[i]).Visible = (i == spriteIndex);
         }
-        GD.Print();
     }
 }
