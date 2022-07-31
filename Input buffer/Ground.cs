@@ -8,11 +8,16 @@ using System.Collections.Generic;
 public class Ground : Sprite
 {
     /// <summary>
+    ///  Where to spawn the first obstacle when the ground is initialized.
+    /// Useful to give the player a bit of space at the very start of the game.
+    /// </summary>
+    [Export] private int _initialObstaclePos;
+    /// <summary>
     /// Reference to the other ground sprite. When one sprite goes offscreen, it teleports behind the other one to give
     /// the appearance of a single endless ground sprite.
     /// </summary>
     private Ground _otherGround; [Export] private NodePath _otherGroundPath;
-    /// <summary> THe obstacles on this segment of the ground. </summary>
+    /// <summary> The obstacles on this segment of the ground. </summary>
     private List<Node> _obstacles = new List<Node>();
 
     /// <summary> The obstacles that can appear on the ground </summary>
@@ -22,6 +27,7 @@ public class Ground : Sprite
     public override void _Ready()
     {
         _otherGround = GetNode<Ground>(_otherGroundPath);
+        SpawnObstacles(_initialObstaclePos);
     }
 
     /// <summary>
