@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Ground.cs" type="Script" id=4]
 [ext_resource path="res://cactus.tscn" type="PackedScene" id=5]
 [ext_resource path="res://cactus_clump.tscn" type="PackedScene" id=6]
+[ext_resource path="res://pterodactyl.tscn" type="PackedScene" id=7]
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
@@ -113,6 +114,7 @@ script = ExtResource( 4 )
 _otherGroundPath = NodePath("../Ground 2")
 _cactus = ExtResource( 5 )
 _cactusClump = ExtResource( 6 )
+_pterodactyl = ExtResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
 position = Vector2( 1199, 28 )
@@ -142,6 +144,7 @@ script = ExtResource( 4 )
 _otherGroundPath = NodePath("../Ground 1")
 _cactus = ExtResource( 5 )
 _cactusClump = ExtResource( 6 )
+_pterodactyl = ExtResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 2"]
 position = Vector2( 1199, 28 )

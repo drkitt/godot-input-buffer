@@ -65,11 +65,6 @@ public class Ground : Sprite
                 obstacleScene = _pterodactyl;
             }
 
-
-            // :O
-            obstacleScene = _cactus;
-
-
             Node2D obstacle = obstacleScene.Instance<Node2D>();
             obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
             CallDeferred("add_child", obstacle);
