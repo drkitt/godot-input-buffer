@@ -18,11 +18,6 @@ extents = Vector2( 1200, 8.5 )
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 49.75, 299.75 )
 
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 1514.3, 0, 86.632, 100 )
-
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 43.316, 50 )
 
@@ -38,13 +33,30 @@ tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ SubResource( 6 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 1337.9, 0, 87.8, 99.248 ) ]
+}
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 1514.3, 0, 86.632, 100 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
@@ -60,12 +72,24 @@ tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ SubResource( 1 ), SubResource( 7 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 1514.3, 0, 86.632, 100 ), Rect2( 1602.4, 0, 86.632, 100 ) ]
 }
 
 [node name="Node2D" type="Node2D"]
@@ -164,7 +188,9 @@ script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
 
 [node name="Sprite" type="Sprite" parent="Dino"]
-texture = SubResource( 1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1602.4, 0, 86.632, 100 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dino"]
 shape = SubResource( 2 )
