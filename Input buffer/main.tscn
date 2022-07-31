@@ -65,7 +65,7 @@ region = Rect2( 1602.4, 0, 86.632, 100 )
 
 [sub_resource type="Animation" id=5]
 resource_name = "Run"
-length = 0.4
+length = 0.2
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:texture")
@@ -86,7 +86,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Rect2( 1514.3, 0, 86.632, 100 ), Rect2( 1602.4, 0, 86.632, 100 ) ]
@@ -190,7 +190,7 @@ _animation_player_path = NodePath("AnimationPlayer")
 [node name="Sprite" type="Sprite" parent="Dino"]
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 1602.4, 0, 86.632, 100 )
+region_rect = Rect2( 1514.3, 0, 86.632, 100 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dino"]
 shape = SubResource( 2 )
