@@ -65,8 +65,6 @@ public class Ground : Sprite
                 obstacleScene = _pterodactyl;
             }
 
-            obstacleScene = _pterodactyl;
-
             Node2D obstacle = obstacleScene.Instance<Node2D>();
             obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
             CallDeferred("add_child", obstacle);
@@ -74,7 +72,6 @@ public class Ground : Sprite
 
             int offset = rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
             currentPos += offset;
-            GD.Print(offset);
         }
     }
 }
