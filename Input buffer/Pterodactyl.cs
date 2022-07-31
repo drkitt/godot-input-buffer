@@ -10,19 +10,22 @@ public class Pterodactyl : Sprite
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Fly high or low.
+        // Fly low, medium, or high.
         RandomNumberGenerator rng = new RandomNumberGenerator();
         rng.Randomize();
-        bool weFlyHigh = rng.Randb();
+        int weFlyHigh = rng.RandiRange(0, 2);
 
-        if (weFlyHigh)
+        switch (weFlyHigh)
         {
-            // BALLIN'
-            Position = new Vector2(Position.x, -160);
-        }
-        else
-        {
-            Position = new Vector2(Position.x, -48);
+            case 0: // Ground level.
+                Position = new Vector2(Position.x, -40);
+                break;
+            case 1: // Medium height, avoid by ducking.
+                Position = new Vector2(Position.x, -80);
+                break;
+            case 2: // High (the dino can safely avoid this by doing nothing).
+                Position = new Vector2(Position.x, -160);
+                break;
         }
     }
 }
