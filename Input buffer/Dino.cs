@@ -20,15 +20,16 @@ public class Dino : KinematicBody2D
         /// <summary> Method to call when entering this state. </summary>
         public readonly Action Enter;
         /// <summary> Method to call repeatedly while the state machine is in this state. </summary>
-        public readonly Action Tick;
+        public readonly Action<float> Process;
         /// <summary> Method to call when exiting this state. </summary>
         public readonly Action Exit;
 
-        public StateBehaviours(Action enter, Action tick, Action exit)
+        public StateBehaviours(Action enter = null, Action<float> process = null, Action exit = null)
         {
-            Enter = enter;
-            Tick = tick;
-            Exit = exit;
+            // All of these callbacks are optional; if any callback is unspecified, we use a function that does nothing.
+            Enter = (enter == null) ? () => { } : enter;
+            Process = (process == null) ? (_) => { } : process;
+            Exit = (exit == null) ? () => { } : exit;
         }
     }
 
@@ -52,31 +53,33 @@ public class Dino : KinematicBody2D
     /// </summary>
     [Export] private float _initial_jump_speed = 800f;
 
-    private Dictionary<DinoState, StateBehaviours> _stateMachine = new Dictionary<DinoState, StateBehaviours>
-    {
-        { DinoState.Grounded, new StateBehaviours
-        (
-            () => GD.Print("Hello"),
-            () => GD.Print(":))))"),
-            () => GD.Print("Goodbye")
-        )},
-        { DinoState.Ducking, new StateBehaviours
-        (
-            enter: () => GD.Print("hello"),
-            tick: () => GD.Print(":)"),
-            exit: () => GD.Print("goodbye")
-        )},
-
-    };
+    private Dictionary<DinoState, StateBehaviours> _stateMachine;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
     {
+        _stateMachine = new Dictionary<DinoState, StateBehaviours>
+        {
+            { DinoState.Grounded, new StateBehaviours
+            (
+                enter: () => GD.Print("Hello"),
+                process: GroundedPhysicsProcess,
+                exit: () => GD.Print("Goodbye")
+            )},
+            { DinoState.Jumping, new StateBehaviours
+            (
+                enter: () => GD.Print("hello"),
+                process: JumpingPhysicsProcess,
+                exit: () => GD.Print("goodbye")
+            )},
+
+        };
+
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
 
-        _stateMachine[DinoState.Grounded].Enter();
+        _stateMachine[_state].Enter();
     }
 
     /// <summary>
@@ -87,39 +90,47 @@ public class Dino : KinematicBody2D
     {
         base._PhysicsProcess(delta);
 
-        switch (_state)
+        _stateMachine[_state].Process(delta);
+    }
+
+    /// <summary>
+    /// Physics update for the grounded state.
+    /// </summary>
+    /// <param name="delta"> The elapsed time since the previous physics step. </param>
+    private void GroundedPhysicsProcess(float delta)
+    {
+        if (Input.IsActionJustPressed(JUMP_ACTION))
         {
-            case DinoState.Grounded:
-                if (Input.IsActionJustPressed(JUMP_ACTION))
-                {
-                    _state = DinoState.Jumping;
-                    _velocity = _initial_jump_speed * Vector2.Up;
-                    _gravity = _regular_gravity;
-                    _animator.Play("Run");
-                }
-                break;
-            case DinoState.Jumping:
-                // Short-hop if the player releases the jump button while rising
-                if (Input.IsActionJustReleased(JUMP_ACTION) && _velocity.Dot(Vector2.Up) > 0)
-                {
-                    _gravity = _short_hop_gravity;
-                }
+            _state = DinoState.Jumping;
+            _velocity = _initial_jump_speed * Vector2.Up;
+            _gravity = _regular_gravity;
+            _animator.Play("Run");
+        }
+    }
+    /// <summary>
+    /// Physics update for the grounded state.
+    /// </summary>
+    /// <param name="delta"> The elapsed time since the previous physics step. </param>
+    private void JumpingPhysicsProcess(float delta)
+    {
+        // Short-hop if the player releases the jump button while rising
+        if (Input.IsActionJustReleased(JUMP_ACTION) && _velocity.Dot(Vector2.Up) > 0)
+        {
+            _gravity = _short_hop_gravity;
+        }
 
-                _velocity += _gravity * delta * Vector2.Down;
+        _velocity += _gravity * delta * Vector2.Down;
 
-                // Reset the gravity once the dino begins falling after a short hop. 
-                if (_velocity.Dot(Vector2.Up) < 0)
-                {
-                    _gravity = _regular_gravity;
-                }
+        // Reset the gravity once the dino begins falling after a short hop. 
+        if (_velocity.Dot(Vector2.Up) < 0)
+        {
+            _gravity = _regular_gravity;
+        }
 
-                MoveAndSlide(_velocity, Vector2.Up);
-                if (IsOnFloor())
-                {
-                    _state = DinoState.Grounded;
-                }
-                break;
-            default: throw new InvalidOperationException("Unhandled state: " + _state);
+        MoveAndSlide(_velocity, Vector2.Up);
+        if (IsOnFloor())
+        {
+            _state = DinoState.Grounded;
         }
     }
 }
