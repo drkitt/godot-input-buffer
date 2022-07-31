@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// A sprite representing the ground the dino runs across.
@@ -11,6 +12,8 @@ public class Ground : Sprite
     /// the appearance of a single endless ground sprite.
     /// </summary>
     private Ground _otherGround; [Export] private NodePath _otherGroundPath;
+    /// <summary> THe obstacles on this segment of the ground. </summary>
+    private List<Node> _obstacles = new List<Node>();
 
     /// <summary> The obstacles that can appear on the ground </summary>
     [Export] private PackedScene _cactus, _cactusClump, _pterodactyl;
@@ -29,6 +32,11 @@ public class Ground : Sprite
     private void WrapGround(Area2D area)
     {
         Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
+        foreach (Node obstacle in _obstacles)
+        {
+            obstacle.QueueFree();
+        }
+        _obstacles.Clear();
         SpawnObstacles();
     }
 
@@ -65,6 +73,7 @@ public class Ground : Sprite
             Node2D obstacle = obstacleScene.Instance<Node2D>();
             obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
             CallDeferred("add_child", obstacle);
+            _obstacles.Add(obstacle);
 
             currentPos += rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
         }
