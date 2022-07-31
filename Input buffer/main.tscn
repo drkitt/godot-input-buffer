@@ -110,9 +110,6 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 1/Area2D"]
 shape = SubResource( 8 )
 
-[node name="Obstacles" type="Position2D" parent="Treadmill/Ground 1"]
-position = Vector2( -1200, -8 )
-
 [node name="Ground 2" type="Sprite" parent="Treadmill"]
 position = Vector2( 2500, 251 )
 texture = SubResource( 3 )

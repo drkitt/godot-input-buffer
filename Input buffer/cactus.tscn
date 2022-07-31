@@ -35,28 +35,30 @@ extents = Vector2( 25.01, 46 )
 script = ExtResource( 2 )
 
 [node name="Sprite 1" type="Sprite" parent="."]
+position = Vector2( 1, -30 )
 texture = SubResource( 1 )
 
 [node name="Sprite 2" type="Sprite" parent="."]
-visible = false
+position = Vector2( 1, -30 )
 texture = SubResource( 2 )
 
 [node name="Sprite 3" type="Sprite" parent="."]
-visible = false
+position = Vector2( 1, -30 )
 texture = SubResource( 3 )
 
 [node name="Sprite 4" type="Sprite" parent="."]
-visible = false
+position = Vector2( 1, -30 )
 texture = SubResource( 4 )
 
 [node name="Sprite 5" type="Sprite" parent="."]
-visible = false
+position = Vector2( 1, -30 )
 texture = SubResource( 5 )
 __meta__ = {
 "_editor_description_": "The hitbox being way narrower than the cactus group is a quality of life feature ;)"
 }
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 1, -30 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, -2 )
