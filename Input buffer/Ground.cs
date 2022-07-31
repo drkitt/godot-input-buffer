@@ -43,7 +43,7 @@ public class Ground : Sprite
     private void SpawnObstacles(int startPos = 400)
     {
         // Min/max pixels between obstacles
-        const int MIN_OFFSET = 80, MAX_OFFSET = 400;
+        const int MIN_OFFSET = 200, MAX_OFFSET = 500;
         // The current position to spawn an obstacle at
         int currentPos = startPos;
         RandomNumberGenerator rng = new RandomNumberGenerator();
@@ -75,7 +75,9 @@ public class Ground : Sprite
             CallDeferred("add_child", obstacle);
             _obstacles.Add(obstacle);
 
-            currentPos += rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
+            int offset = rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
+            currentPos += offset;
+            GD.Print(offset);
         }
     }
 }
