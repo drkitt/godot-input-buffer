@@ -54,14 +54,19 @@ public class Dino : KinematicBody2D
 
     private Dictionary<DinoState, StateBehaviours> _stateMachine = new Dictionary<DinoState, StateBehaviours>
     {
-        {
-            DinoState.Ducking, new StateBehaviours
-            (
-                enter: () => GD.Print("hello"),
-                tick: () => GD.Print(":)"),
-                exit: () => GD.Print("goodbye")
-            )
-        }
+        { DinoState.Grounded, new StateBehaviours
+        (
+            () => GD.Print("Hello"),
+            () => GD.Print(":))))"),
+            () => GD.Print("Goodbye")
+        )},
+        { DinoState.Ducking, new StateBehaviours
+        (
+            enter: () => GD.Print("hello"),
+            tick: () => GD.Print(":)"),
+            exit: () => GD.Print("goodbye")
+        )},
+
     };
 
     /// <summary>
@@ -71,7 +76,7 @@ public class Dino : KinematicBody2D
     {
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
 
-        _stateMachine[DinoState.Ducking].Enter();
+        _stateMachine[DinoState.Grounded].Enter();
     }
 
     /// <summary>
