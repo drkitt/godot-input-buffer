@@ -1,19 +1,39 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// The game's brave protagonist.
 /// </summary>
 public class Dino : KinematicBody2D
 {
-    private static readonly string JUMP_ACTION = "ui_select";
-
     private enum DinoState
     {
         Grounded,
         Jumping,
+        Ducking,
         Dead
     }
+
+    private readonly struct StateBehaviours
+    {
+        /// <summary> Method to call when entering this state. </summary>
+        public readonly Action Enter;
+        /// <summary> Method to call repeatedly while the state machine is in this state. </summary>
+        public readonly Action Tick;
+        /// <summary> Method to call when exiting this state. </summary>
+        public readonly Action Exit;
+
+        public StateBehaviours(Action enter, Action tick, Action exit)
+        {
+            Enter = enter;
+            Tick = tick;
+            Exit = exit;
+        }
+    }
+
+    private static readonly string JUMP_ACTION = "ui_select";
+
     private DinoState _state = DinoState.Grounded;
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
     private Vector2 _velocity;
@@ -32,12 +52,26 @@ public class Dino : KinematicBody2D
     /// </summary>
     [Export] private float _initial_jump_speed = 800f;
 
+    private Dictionary<DinoState, StateBehaviours> _stateMachine = new Dictionary<DinoState, StateBehaviours>
+    {
+        {
+            DinoState.Ducking, new StateBehaviours
+            (
+                enter: () => GD.Print("hello"),
+                tick: () => GD.Print(":)"),
+                exit: () => GD.Print("goodbye")
+            )
+        }
+    };
+
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
     {
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
+
+        _stateMachine[DinoState.Ducking].Enter();
     }
 
     /// <summary>
