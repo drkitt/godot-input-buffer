@@ -62,19 +62,8 @@ public class Dino : KinematicBody2D
     {
         _stateMachine = new Dictionary<DinoState, StateBehaviours>
         {
-            { DinoState.Grounded, new StateBehaviours
-            (
-                enter: () => GD.Print("Hello"),
-                process: GroundedPhysicsProcess,
-                exit: () => GD.Print("Goodbye")
-            )},
-            { DinoState.Jumping, new StateBehaviours
-            (
-                enter: () => GD.Print("hello"),
-                process: JumpingPhysicsProcess,
-                exit: () => GD.Print("goodbye")
-            )},
-
+            { DinoState.Grounded, new StateBehaviours(process: GroundedPhysicsProcess)},
+            { DinoState.Jumping, new StateBehaviours(process: JumpingPhysicsProcess)},
         };
 
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
