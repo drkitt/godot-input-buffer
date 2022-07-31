@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 260.043, -6.22105, 91.1614, 88.3723 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 352.66, -6.221, 91.161, 88.372 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Fly"
+length = 0.5
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ SubResource( 1 ), SubResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 260.043, -6.221, 91.161, 88.372 ), Rect2( 352, -6.221, 91.161, 88.372 ) ]
+}
+
+[node name="Pterodactyl" type="Sprite"]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 260.043, -6.221, 91.161, 88.372 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Fly = SubResource( 3 )
