@@ -56,6 +56,7 @@ public readonly struct StateSpec
     public readonly Action<float> Process;
     /// <summary> Method to call when exiting this state. </summary>
     public readonly Action Exit;
+    // Potential enhancement: To make a hierarchical state machine, this class can include another state machine :)
 
     /// <summary>
     /// Sets up the state's callbacks. If any callback is unspecified, it's replaced with a function that does nothing.
