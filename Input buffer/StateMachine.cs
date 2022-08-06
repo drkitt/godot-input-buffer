@@ -68,8 +68,10 @@ public readonly struct StateSpec
     {
         // For each callback, use it if it was specified, otherwise use a no-op.
         // I hope that didn't just make it more confusing...
-        Enter = (enter == null) ? () => { } : enter;
-        Process = (process == null) ? (_) => { } : process;
-        Exit = (exit == null) ? () => { } : exit;
+        Action noOp = () => { };
+        Action<float> floatNoOp = (_) => { };
+        Enter = (enter == null) ? noOp : enter;
+        Process = (process == null) ? floatNoOp : process;
+        Exit = (exit == null) ? noOp : exit;
     }
 }
