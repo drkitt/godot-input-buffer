@@ -5,6 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Structures behaviour in terms of discrete states, each with enter, process, and exit methods.
 /// </summary>
+/// <typeparam name="StateEnum"> Enum representing the states that the machine can be in </typeparam>
 public class StateMachine<StateEnum> where StateEnum : Enum
 {
     /// <summary> Dictionary mapping each state to its methods. </summary>
@@ -52,10 +53,10 @@ public class StateSpec
 {
     /// <summary> Method to call when entering this state. </summary>
     public readonly Action Enter;
-    /// <summary> Method to call repeatedly while in this state. </summary>
-    public readonly Action<float> Process;
     /// <summary> Method to call when exiting this state. </summary>
     public readonly Action Exit;
+    /// <summary> Method to call repeatedly while in this state. </summary>
+    private readonly Action<float> _process;
 
     /// <summary>
     /// Sets up the state's callbacks. If any callback is unspecified, it's replaced with a function that does nothing.
@@ -69,29 +70,60 @@ public class StateSpec
         Action noOp = () => { };
         Action<float> floatNoOp = (_) => { };
         Enter = (enter == null) ? noOp : enter;
-        Process = (process == null) ? floatNoOp : process;
+        _process = (process == null) ? floatNoOp : process;
         Exit = (exit == null) ? noOp : exit;
+    }
+
+    /// <summary>
+    /// Method to call repeatedly while in this state. 
+    /// </summary>
+    /// <param name="delta"> The elapsed time since the previous update. </param>
+    /// We use this method instead of directly exposing the callback in order to let a derived class wrap it with other 
+    /// logic.
+    public virtual void Process(float delta)
+    {
+        _process(delta);
     }
 }
 
+/// <summary>
+/// Container for a state's methods and a nested state machine (i.e. substate machine). Used to create a hierarchical 
+/// state machine.
+/// </summary>
+/// <typeparam name="SubstateEnum"> Enum representing the sub-states that this state can be in. </typeparam>
 public class StateSpec<SubstateEnum> : StateSpec where SubstateEnum : Enum
 {
     /// <summary> State machine that's updated while this state is active. </summary>
-    public readonly StateMachine<SubstateEnum> SubStateMachine;
+    private readonly StateMachine<SubstateEnum> _substateMachine;
 
+    /// <summary>
+    /// Sets up the state's callbacks and substate machine.
+    /// </summary>
+    /// <param name="substateMachine"> State machine that's updated while this state is active. </param>
+    /// <param name="enter"> Method to call when entering this state. </param>
+    /// <param name="process"> Method to call repeatedly while in this state. </param>
+    /// <param name="exit"> Method to call when exiting this state. </param>
+    /// <returns></returns>
     public StateSpec
     (
-        StateMachine<SubstateEnum> subStateMachine,
+        StateMachine<SubstateEnum> substateMachine,
         Action enter = null,
         Action<float> process = null,
         Action exit = null
     ) : base(enter, process, exit)
     {
-        SubStateMachine = subStateMachine;
+        _substateMachine = substateMachine;
     }
 
-    public new void Process(float delta)
+    /// <summary>
+    /// Method to call repeatedly while in this state. 
+    /// </summary>
+    /// <param name="delta"> The elapsed time since the previous update. </param>
+    /// Remember how Process in the base class was a method instead of a public delegate? It was so this class could 
+    /// call _substateMachine.Process in its Process method :)
+    public override void Process(float delta)
     {
         base.Process(delta);
+        _substateMachine.Process(delta);
     }
 }
