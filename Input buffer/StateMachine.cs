@@ -48,7 +48,7 @@ public class StateMachine<StateEnum> where StateEnum : Enum
 /// <summary>
 /// Container for a state's methods (i.e. specification for the state's behaviour).
 /// </summary>
-public readonly struct StateSpec
+public class StateSpec
 {
     /// <summary> Method to call when entering this state. </summary>
     public readonly Action Enter;
@@ -56,7 +56,6 @@ public readonly struct StateSpec
     public readonly Action<float> Process;
     /// <summary> Method to call when exiting this state. </summary>
     public readonly Action Exit;
-    // Potential enhancement: To make a hierarchical state machine, this class can include another state machine :)
 
     /// <summary>
     /// Sets up the state's callbacks. If any callback is unspecified, it's replaced with a function that does nothing.
@@ -66,12 +65,33 @@ public readonly struct StateSpec
     /// <param name="exit"> Method to call when exiting this state. </param>
     public StateSpec(Action enter = null, Action<float> process = null, Action exit = null)
     {
-        // For each callback, use it if it was specified, otherwise use a no-op.
-        // I hope that didn't just make it more confusing...
+        // For each callback, use the given method if it was specified, otherwise use a function that does nothing.
         Action noOp = () => { };
         Action<float> floatNoOp = (_) => { };
         Enter = (enter == null) ? noOp : enter;
         Process = (process == null) ? floatNoOp : process;
         Exit = (exit == null) ? noOp : exit;
+    }
+}
+
+public class StateSpec<SubstateEnum> : StateSpec where SubstateEnum : Enum
+{
+    /// <summary> State machine that's updated while this state is active. </summary>
+    public readonly StateMachine<SubstateEnum> SubStateMachine;
+
+    public StateSpec
+    (
+        StateMachine<SubstateEnum> subStateMachine,
+        Action enter = null,
+        Action<float> process = null,
+        Action exit = null
+    ) : base(enter, process, exit)
+    {
+        SubStateMachine = subStateMachine;
+    }
+
+    public new void Process(float delta)
+    {
+        base.Process(delta);
     }
 }

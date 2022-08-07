@@ -15,9 +15,16 @@ public class Dino : KinematicBody2D
         Dead
     }
 
+    private enum GroundedState
+    {
+        Running,
+        Ducking
+    }
+
     private static readonly string JUMP_ACTION = "ui_select";
 
     private StateMachine<DinoState> _stateMachine;
+    private StateMachine<GroundedState> _groundedStateMachine;
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
     private CollisionShape2D _regularHitbox; [Export] private NodePath _regularHitboxPath;
     private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath;
@@ -43,12 +50,26 @@ public class Dino : KinematicBody2D
     public override void _Ready()
     {
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
+        _regularHitbox = GetNode<CollisionShape2D>(_regularHitboxPath);
+        _duckingHitbox = GetNode<CollisionShape2D>(_duckingHitboxPath);
+
+        _groundedStateMachine = new StateMachine<GroundedState>(
+            new Dictionary<GroundedState, StateSpec>
+            {
+                {GroundedState.Running, new StateSpec()},
+                {GroundedState.Ducking, new StateSpec(enter: DuckingEnter)},
+            },
+            GroundedState.Running
+        );
 
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
             {
-                { DinoState.Grounded, new StateSpec(enter: GroundedEnter, process: GroundedPhysicsProcess)},
+                { DinoState.Grounded, new StateSpec<GroundedState>(
+                    subStateMachine: _groundedStateMachine, enter: GroundedEnter, process: GroundedPhysicsProcess
+                )},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, process: JumpingPhysicsProcess)},
+                { DinoState.Ducking, new StateSpec() },
             },
             DinoState.Grounded
         );
@@ -119,5 +140,11 @@ public class Dino : KinematicBody2D
         {
             _stateMachine.TransitionTo(DinoState.Grounded);
         }
+    }
+    private void DuckingEnter()
+    {
+        _animator.Play("Ducking");
+        _regularHitbox.SetDeferred("disabled", true);
+        _duckingHitbox.SetDeferred("disabled", false);
     }
 }
