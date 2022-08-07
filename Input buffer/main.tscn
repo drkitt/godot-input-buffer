@@ -288,6 +288,8 @@ vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
 position = Vector2( 145, 206 )
 script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
+_regularHitboxPath = NodePath("Regular hitbox")
+_duckingHitboxPath = NodePath("Ducking hitbox")
 
 [node name="Sprite" type="Sprite" parent="Dino"]
 texture = ExtResource( 1 )
