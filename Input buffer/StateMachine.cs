@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Structures behaviour in terms of discrete states, each with enter, process, and exit methods.
+/// Structures behaviour in terms of discrete states, each with enter, update, and exit methods.
 /// </summary>
 /// <typeparam name="StateEnum"> Enum representing the states that the machine can be in </typeparam>
 public class StateMachine<StateEnum> where StateEnum : Enum
@@ -25,13 +25,13 @@ public class StateMachine<StateEnum> where StateEnum : Enum
     }
 
     /// <summary>
-    /// Calls the current state's Process method. Should be called in the container's _Process or _PhysicsProcess 
+    /// Calls the current state's Update method. Should be called in the container's _Update or _PhysicsUpdate 
     /// method.
     /// </summary>
     /// <param name="delta"> The elapsed time since the previous frame or physics step. </param>
-    public void Process(float delta)
+    public void Update(float delta)
     {
-        _behaviours[_state].Process(delta);
+        _behaviours[_state].Update(delta);
     }
 
     /// <summary>
@@ -56,21 +56,21 @@ public class StateSpec
     /// <summary> Method to call when exiting this state. </summary>
     public readonly Action Exit;
     /// <summary> Method to call repeatedly while in this state. </summary>
-    private readonly Action<float> _process;
+    private readonly Action<float> _update;
 
     /// <summary>
     /// Sets up the state's callbacks. If any callback is unspecified, it's replaced with a function that does nothing.
     /// </summary>
     /// <param name="enter"> Method to call when entering this state. </param>
-    /// <param name="process"> Method to call repeatedly while in this state. </param>
+    /// <param name="update"> Method to call repeatedly while in this state. </param>
     /// <param name="exit"> Method to call when exiting this state. </param>
-    public StateSpec(Action enter = null, Action<float> process = null, Action exit = null)
+    public StateSpec(Action enter = null, Action<float> update = null, Action exit = null)
     {
         // For each callback, use the given method if it was specified, otherwise use a function that does nothing.
         Action noOp = () => { };
         Action<float> floatNoOp = (_) => { };
         Enter = (enter == null) ? noOp : enter;
-        _process = (process == null) ? floatNoOp : process;
+        _update = (update == null) ? floatNoOp : update;
         Exit = (exit == null) ? noOp : exit;
     }
 
@@ -80,9 +80,9 @@ public class StateSpec
     /// <param name="delta"> The elapsed time since the previous update. </param>
     /// We use this method instead of directly exposing the callback in order to let a derived class wrap it with other 
     /// logic.
-    public virtual void Process(float delta)
+    public virtual void Update(float delta)
     {
-        _process(delta);
+        _update(delta);
     }
 }
 
@@ -101,16 +101,16 @@ public class StateSpec<SubstateEnum> : StateSpec where SubstateEnum : Enum
     /// </summary>
     /// <param name="substateMachine"> State machine that's updated while this state is active. </param>
     /// <param name="enter"> Method to call when entering this state. </param>
-    /// <param name="process"> Method to call repeatedly while in this state. </param>
+    /// <param name="update"> Method to call repeatedly while in this state. </param>
     /// <param name="exit"> Method to call when exiting this state. </param>
     /// <returns></returns>
     public StateSpec
     (
         StateMachine<SubstateEnum> substateMachine,
         Action enter = null,
-        Action<float> process = null,
+        Action<float> update = null,
         Action exit = null
-    ) : base(enter, process, exit)
+    ) : base(enter, update, exit)
     {
         _substateMachine = substateMachine;
     }
@@ -119,11 +119,11 @@ public class StateSpec<SubstateEnum> : StateSpec where SubstateEnum : Enum
     /// Method to call repeatedly while in this state. 
     /// </summary>
     /// <param name="delta"> The elapsed time since the previous update. </param>
-    /// Remember how Process in the base class was a method instead of a public delegate? It was so this class could 
-    /// call _substateMachine.Process in its Process method :)
-    public override void Process(float delta)
+    /// Remember how Update in the base class was a method instead of a public delegate? It was so this class could 
+    /// call _substateMachine.Update in its Update method :)
+    public override void Update(float delta)
     {
-        base.Process(delta);
-        _substateMachine.Process(delta);
+        base.Update(delta);
+        _substateMachine.Update(delta);
     }
 }

@@ -66,9 +66,9 @@ public class Dino : KinematicBody2D
             new Dictionary<DinoState, StateSpec>
             {
                 { DinoState.Grounded, new StateSpec<GroundedState>(
-                    substateMachine: _groundedStateMachine, enter: GroundedEnter, process: GroundedPhysicsProcess
+                    substateMachine: _groundedStateMachine, enter: GroundedEnter, update: GroundedPhysicsProcess
                 )},
-                { DinoState.Jumping, new StateSpec(enter: JumpingEnter, process: JumpingPhysicsProcess)},
+                { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
                 { DinoState.Ducking, new StateSpec() },
             },
             DinoState.Grounded
@@ -85,7 +85,7 @@ public class Dino : KinematicBody2D
     {
         base._PhysicsProcess(delta);
 
-        _stateMachine.Process(delta);
+        _stateMachine.Update(delta);
     }
 
     /// <summary>
