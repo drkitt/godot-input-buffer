@@ -47,16 +47,17 @@ public class StateMachine<StateEnum> where StateEnum : Enum
 }
 
 /// <summary>
-/// Container for a state's methods (i.e. specification for the state's behaviour).
+/// Container for a state's methods (i.e. specification for the state's behaviour). 
+/// Feel free to extend it instead of instantiating it if you want to have state-specific variables.
 /// </summary>
 public class StateSpec
 {
     /// <summary> Method to call when entering this state. </summary>
     public readonly Action Enter;
+    /// <summary> Method to call repeatedly while in this state. </summary>
+    public readonly Action<float> Update;
     /// <summary> Method to call when exiting this state. </summary>
     public readonly Action Exit;
-    /// <summary> Method to call repeatedly while in this state. </summary>
-    private readonly Action<float> _update;
 
     /// <summary>
     /// Sets up the state's callbacks. If any callback is unspecified, it's replaced with a function that does nothing.
@@ -70,60 +71,7 @@ public class StateSpec
         Action noOp = () => { };
         Action<float> floatNoOp = (_) => { };
         Enter = (enter == null) ? noOp : enter;
-        _update = (update == null) ? floatNoOp : update;
+        Update = (update == null) ? floatNoOp : update;
         Exit = (exit == null) ? noOp : exit;
-    }
-
-    /// <summary>
-    /// Method to call repeatedly while in this state. 
-    /// </summary>
-    /// <param name="delta"> The elapsed time since the previous update. </param>
-    /// We use this method instead of directly exposing the callback in order to let a derived class wrap it with other 
-    /// logic.
-    public virtual void Update(float delta)
-    {
-        _update(delta);
-    }
-}
-
-/// <summary>
-/// Container for a state's methods and a nested state machine (i.e. substate machine). Used to create a hierarchical 
-/// state machine.
-/// </summary>
-/// <typeparam name="SubstateEnum"> Enum representing the sub-states that this state can be in. </typeparam>
-public class StateSpec<SubstateEnum> : StateSpec where SubstateEnum : Enum
-{
-    /// <summary> State machine that's updated while this state is active. </summary>
-    private readonly StateMachine<SubstateEnum> _substateMachine;
-
-    /// <summary>
-    /// Sets up the state's callbacks and substate machine.
-    /// </summary>
-    /// <param name="substateMachine"> State machine that's updated while this state is active. </param>
-    /// <param name="enter"> Method to call when entering this state. </param>
-    /// <param name="update"> Method to call repeatedly while in this state. </param>
-    /// <param name="exit"> Method to call when exiting this state. </param>
-    /// <returns></returns>
-    public StateSpec
-    (
-        StateMachine<SubstateEnum> substateMachine,
-        Action enter = null,
-        Action<float> update = null,
-        Action exit = null
-    ) : base(enter, update, exit)
-    {
-        _substateMachine = substateMachine;
-    }
-
-    /// <summary>
-    /// Method to call repeatedly while in this state. 
-    /// </summary>
-    /// <param name="delta"> The elapsed time since the previous update. </param>
-    /// Remember how Update in the base class was a method instead of a public delegate? It was so this class could 
-    /// call _substateMachine.Update in its Update method :)
-    public override void Update(float delta)
-    {
-        base.Update(delta);
-        _substateMachine.Update(delta);
     }
 }

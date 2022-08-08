@@ -22,6 +22,7 @@ public class Dino : KinematicBody2D
     }
 
     private static readonly string JUMP_ACTION = "ui_select";
+    private static readonly string DUCK_ACTION = "ui_down";
 
     private StateMachine<DinoState> _stateMachine;
     private StateMachine<GroundedState> _groundedStateMachine;
@@ -30,6 +31,7 @@ public class Dino : KinematicBody2D
     private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath;
     private Vector2 _velocity;
     private float _gravity;
+    private bool _ducking;
 
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at while rising. </summary>
     [Export] private float _regular_gravity = 2400f;
@@ -53,21 +55,11 @@ public class Dino : KinematicBody2D
         _regularHitbox = GetNode<CollisionShape2D>(_regularHitboxPath);
         _duckingHitbox = GetNode<CollisionShape2D>(_duckingHitboxPath);
 
-        _groundedStateMachine = new StateMachine<GroundedState>(
-            new Dictionary<GroundedState, StateSpec>
-            {
-                {GroundedState.Running, new StateSpec()},
-                {GroundedState.Ducking, new StateSpec(enter: DuckingEnter)},
-            },
-            GroundedState.Running
-        );
-
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
             {
-                { DinoState.Grounded, new StateSpec<GroundedState>(
-                    substateMachine: _groundedStateMachine, enter: GroundedEnter, update: GroundedPhysicsProcess
-                )},
+                { DinoState.Grounded, new StateSpec(
+                    enter: GroundedEnter,update: GroundedPhysicsProcess, exit: GroundedExit)},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
                 { DinoState.Ducking, new StateSpec() },
             },
@@ -93,7 +85,10 @@ public class Dino : KinematicBody2D
     /// </summary>
     private void GroundedEnter()
     {
+        _ducking = false;
         _animator.Play("Run");
+        _regularHitbox.SetDeferred("disabled", false);
+        _duckingHitbox.SetDeferred("disabled", true);
     }
     /// <summary>
     /// Physics update for the grounded state.
@@ -103,8 +98,35 @@ public class Dino : KinematicBody2D
     {
         if (Input.IsActionJustPressed(JUMP_ACTION))
         {
+            // Jump.
             _stateMachine.TransitionTo(DinoState.Jumping);
         }
+        else if (_ducking && !Input.IsActionPressed(DUCK_ACTION))
+        {
+            // Stand up and run.
+            _ducking = false;
+            _animator.Play("Run");
+            _regularHitbox.SetDeferred("disabled", false);
+            _duckingHitbox.SetDeferred("disabled", true);
+        }
+        else if (!_ducking && Input.IsActionPressed(DUCK_ACTION))
+        {
+            // Duck.
+            _ducking = true;
+            _animator.Play("Ducking");
+            _regularHitbox.SetDeferred("disabled", true);
+            _duckingHitbox.SetDeferred("disabled", false);
+        }
+    }
+    /// <summary>
+    /// Called when exiting the grounded state.
+    /// </summary>
+    private void GroundedExit()
+    {
+        // Restore the regular hitbox.
+        _ducking = false;
+        _regularHitbox.SetDeferred("disabled", false);
+        _duckingHitbox.SetDeferred("disabled", true);
     }
     /// <summary>
     /// Called when entering the jumping state.
@@ -140,11 +162,5 @@ public class Dino : KinematicBody2D
         {
             _stateMachine.TransitionTo(DinoState.Grounded);
         }
-    }
-    private void DuckingEnter()
-    {
-        _animator.Play("Ducking");
-        _regularHitbox.SetDeferred("disabled", true);
-        _duckingHitbox.SetDeferred("disabled", false);
     }
 }
