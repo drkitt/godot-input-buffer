@@ -15,23 +15,15 @@ public class Dino : KinematicBody2D
         Dead
     }
 
-    private enum GroundedState
-    {
-        Running,
-        Ducking
-    }
-
     private static readonly string JUMP_ACTION = "ui_select";
     private static readonly string DUCK_ACTION = "ui_down";
 
     private StateMachine<DinoState> _stateMachine;
-    private StateMachine<GroundedState> _groundedStateMachine;
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
     private CollisionShape2D _regularHitbox; [Export] private NodePath _regularHitboxPath;
     private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath;
     private Vector2 _velocity;
     private float _gravity;
-    private bool _ducking;
 
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at while rising. </summary>
     [Export] private float _regular_gravity = 2400f;
@@ -58,10 +50,9 @@ public class Dino : KinematicBody2D
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
             {
-                { DinoState.Grounded, new StateSpec(
-                    enter: GroundedEnter,update: GroundedPhysicsProcess, exit: GroundedExit)},
+                { DinoState.Grounded, new StateSpec(enter: GroundedEnter, update: GroundedPhysicsProcess)},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
-                { DinoState.Ducking, new StateSpec() },
+                { DinoState.Ducking, new StateSpec(enter: DuckingEnter, update: DuckingPhysicsProcess, exit: DuckingExit) },
             },
             DinoState.Grounded
         );
@@ -85,10 +76,7 @@ public class Dino : KinematicBody2D
     /// </summary>
     private void GroundedEnter()
     {
-        _ducking = false;
         _animator.Play("Run");
-        _regularHitbox.SetDeferred("disabled", false);
-        _duckingHitbox.SetDeferred("disabled", true);
     }
     /// <summary>
     /// Physics update for the grounded state.
@@ -98,35 +86,12 @@ public class Dino : KinematicBody2D
     {
         if (Input.IsActionJustPressed(JUMP_ACTION))
         {
-            // Jump.
             _stateMachine.TransitionTo(DinoState.Jumping);
         }
-        else if (_ducking && !Input.IsActionPressed(DUCK_ACTION))
+        else if (Input.IsActionPressed(DUCK_ACTION))
         {
-            // Stand up and run.
-            _ducking = false;
-            _animator.Play("Run");
-            _regularHitbox.SetDeferred("disabled", false);
-            _duckingHitbox.SetDeferred("disabled", true);
+            _stateMachine.TransitionTo(DinoState.Ducking);
         }
-        else if (!_ducking && Input.IsActionPressed(DUCK_ACTION))
-        {
-            // Duck.
-            _ducking = true;
-            _animator.Play("Ducking");
-            _regularHitbox.SetDeferred("disabled", true);
-            _duckingHitbox.SetDeferred("disabled", false);
-        }
-    }
-    /// <summary>
-    /// Called when exiting the grounded state.
-    /// </summary>
-    private void GroundedExit()
-    {
-        // Restore the regular hitbox.
-        _ducking = false;
-        _regularHitbox.SetDeferred("disabled", false);
-        _duckingHitbox.SetDeferred("disabled", true);
     }
     /// <summary>
     /// Called when entering the jumping state.
@@ -162,5 +127,23 @@ public class Dino : KinematicBody2D
         {
             _stateMachine.TransitionTo(DinoState.Grounded);
         }
+    }
+    private void DuckingEnter()
+    {
+        _animator.Play("Ducking");
+        _regularHitbox.SetDeferred("disabled", true);
+        _duckingHitbox.SetDeferred("disabled", false);
+    }
+    private void DuckingPhysicsProcess(float delta)
+    {
+        if (!Input.IsActionPressed(DUCK_ACTION))
+        {
+            _stateMachine.TransitionTo(DinoState.Grounded);
+        }
+    }
+    private void DuckingExit()
+    {
+        _regularHitbox.SetDeferred("disabled", false);
+        _duckingHitbox.SetDeferred("disabled", true);
     }
 }
