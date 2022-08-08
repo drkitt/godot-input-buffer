@@ -71,17 +71,11 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
-    /// <summary>
-    /// Called when entering the grounded state.
-    /// </summary>
+    // Grounded state callbacks.
     private void GroundedEnter()
     {
         _animator.Play("Run");
     }
-    /// <summary>
-    /// Physics update for the grounded state.
-    /// </summary>
-    /// <param name="delta"> The elapsed time since the previous physics step. </param>
     private void GroundedPhysicsProcess(float delta)
     {
         if (Input.IsActionJustPressed(JUMP_ACTION))
@@ -93,19 +87,14 @@ public class Dino : KinematicBody2D
             _stateMachine.TransitionTo(DinoState.Ducking);
         }
     }
-    /// <summary>
-    /// Called when entering the jumping state.
-    /// </summary>
+
+    // Jumping state callbacks.
     private void JumpingEnter()
     {
         _velocity = _initial_jump_speed * Vector2.Up;
         _gravity = _regular_gravity;
         _animator.Play("Idle + Jump");
     }
-    /// <summary>
-    /// Physics update for the jumping state.
-    /// </summary>
-    /// <param name="delta"> The elapsed time since the previous physics step. </param>
     private void JumpingPhysicsProcess(float delta)
     {
         // Short-hop if the player releases the jump button while rising
@@ -128,6 +117,8 @@ public class Dino : KinematicBody2D
             _stateMachine.TransitionTo(DinoState.Grounded);
         }
     }
+
+    // Ducking state callbacks.
     private void DuckingEnter()
     {
         _animator.Play("Ducking");
