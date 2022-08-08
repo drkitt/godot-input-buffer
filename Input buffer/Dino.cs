@@ -57,7 +57,8 @@ public class Dino : KinematicBody2D
                     enter: IntroAnimationEnter, update: IntroAnimationPhysicsProcess) },
                 { DinoState.Grounded, new StateSpec(enter: GroundedEnter, update: GroundedPhysicsProcess)},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
-                { DinoState.Ducking, new StateSpec(enter: DuckingEnter, update: DuckingPhysicsProcess, exit: DuckingExit) },
+                { DinoState.Ducking, new StateSpec(
+                    enter: DuckingEnter, update: DuckingPhysicsProcess, exit: DuckingExit) },
             },
             DinoState.Idle
         );

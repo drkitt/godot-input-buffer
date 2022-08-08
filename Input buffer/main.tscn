@@ -285,7 +285,7 @@ polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 vertex_colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
 
 [node name="Dino" type="KinematicBody2D" parent="."]
-position = Vector2( 145, 206 )
+position = Vector2( 145, 220 )
 script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox")
