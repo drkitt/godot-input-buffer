@@ -7,6 +7,12 @@ using System.Collections.Generic;
 /// </summary>
 public class Dino : KinematicBody2D
 {
+    /// <summary>
+    /// After doing the jump to begin the game, we emit this signal so other nodes in the scene can finish the intro 
+    /// animation.
+    /// </summary>
+    [Signal] private delegate void IntroJumpFinished();
+
     private enum DinoState
     {
         Idle,
@@ -54,7 +60,7 @@ public class Dino : KinematicBody2D
             {
                 { DinoState.Idle, new StateSpec(enter: IdleEnter, update: IdlePhysicsProcess) },
                 { DinoState.IntroAnimation, new StateSpec(
-                    enter: IntroAnimationEnter, update: IntroAnimationPhysicsProcess) },
+                    enter: IntroAnimationEnter, update: IntroAnimationPhysicsProcess, exit: IntroAnimationExit) },
                 { DinoState.Grounded, new StateSpec(enter: GroundedEnter, update: GroundedPhysicsProcess)},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
                 { DinoState.Ducking, new StateSpec(
@@ -105,6 +111,10 @@ public class Dino : KinematicBody2D
         {
             _stateMachine.TransitionTo(DinoState.Grounded);
         }
+    }
+    private void IntroAnimationExit()
+    {
+        EmitSignal(nameof(IntroJumpFinished), new object[0]);
     }
 
     // Grounded state callbacks.
