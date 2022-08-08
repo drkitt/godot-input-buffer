@@ -9,6 +9,8 @@ public class Dino : KinematicBody2D
 {
     private enum DinoState
     {
+        Idle,
+        IntroAnimation,
         Grounded,
         Jumping,
         Ducking,
@@ -50,11 +52,14 @@ public class Dino : KinematicBody2D
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
             {
+                { DinoState.Idle, new StateSpec(enter: IdleEnter, update: IdlePhysicsProcess) },
+                { DinoState.IntroAnimation, new StateSpec(
+                    enter: IntroAnimationEnter, update: IntroAnimationPhysicsProcess) },
                 { DinoState.Grounded, new StateSpec(enter: GroundedEnter, update: GroundedPhysicsProcess)},
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
                 { DinoState.Ducking, new StateSpec(enter: DuckingEnter, update: DuckingPhysicsProcess, exit: DuckingExit) },
             },
-            DinoState.Grounded
+            DinoState.Idle
         );
 
         _animator.Play("Idle + Jump");
@@ -69,6 +74,36 @@ public class Dino : KinematicBody2D
         base._PhysicsProcess(delta);
 
         _stateMachine.Update(delta);
+    }
+
+    // Idle state callback.
+    private void IdleEnter()
+    {
+        _animator.Play("Idle + Jump");
+    }
+    private void IdlePhysicsProcess(float delta)
+    {
+        if (Input.IsActionJustPressed(JUMP_ACTION))
+        {
+            _stateMachine.TransitionTo(DinoState.IntroAnimation);
+        }
+    }
+
+    // Intro animation state callbacks.
+    private void IntroAnimationEnter()
+    {
+        _velocity = _initial_jump_speed * Vector2.Up;
+        _gravity = _regular_gravity;
+    }
+    private void IntroAnimationPhysicsProcess(float delta)
+    {
+        // Move and detect collision with the ground.
+        _velocity += _gravity * delta * Vector2.Down;
+        MoveAndSlide(_velocity, Vector2.Up);
+        if (IsOnFloor())
+        {
+            _stateMachine.TransitionTo(DinoState.Grounded);
+        }
     }
 
     // Grounded state callbacks.
