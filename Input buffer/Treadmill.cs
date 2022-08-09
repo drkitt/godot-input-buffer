@@ -37,4 +37,8 @@ public class Treadmill : Node2D
             _speed += _acceleration * delta;
         }
     }
+
+    // Methods called by the scene's animation player. Isn't it nice how the two lines have the same length?
+    private void Start() => _moving = true;
+    private void Stop() => _moving = false;
 }

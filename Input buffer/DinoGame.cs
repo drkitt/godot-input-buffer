@@ -26,6 +26,6 @@ public class DinoGame : Node2D
     /// </summary>
     public void ContinueIntroAnimation()
     {
-        GD.Print("hehe");
+        _animator.Play("Intro animation");
     }
 }
