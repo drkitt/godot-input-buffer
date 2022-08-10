@@ -13,11 +13,14 @@ public class Cactus : Node2D
         // Randomly choose one of the sprites
         RandomNumberGenerator rng = new RandomNumberGenerator();
         rng.Randomize();
-        Godot.Collections.Array sprites = this.GetChildrenOfType<Sprite>();
+        Godot.Collections.Array<Sprite> sprites = this.GetChildrenOfType<Sprite>();
         int spriteIndex = rng.RandiRange(0, sprites.Count - 1);
         for (int i = 0; i < sprites.Count; i++)
         {
-            ((Sprite)sprites[i]).Visible = (i == spriteIndex);
+            if (i != spriteIndex)
+            {
+                sprites[i].QueueFree();
+            }
         }
     }
 }

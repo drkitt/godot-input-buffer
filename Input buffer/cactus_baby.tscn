@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
+[ext_resource path="res://Cactus.cs" type="Script" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 446.374, 0.898, 33.4, 70.8199 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15, 33.5 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 480.627, 0.898, 67.142, 70.8199 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 29.5, 33.5 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 548.379, 0.898, 101.191, 70.8199 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 44, 33.5 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite 1" type="Sprite" parent="."]
+position = Vector2( 0, -17 )
+texture = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="Sprite 1"]
+position = Vector2( 1, -13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 1/Area2D"]
+position = Vector2( -0.999998, 13.5 )
+shape = SubResource( 2 )
+
+[node name="Sprite 2" type="Sprite" parent="."]
+position = Vector2( 0, -17 )
+texture = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="Sprite 2"]
+position = Vector2( 1, -13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 2/Area2D"]
+position = Vector2( -1.5, 13.5 )
+shape = SubResource( 5 )
+
+[node name="Sprite 3" type="Sprite" parent="."]
+position = Vector2( 0, -17 )
+texture = SubResource( 4 )
+
+[node name="Area2D" type="Area2D" parent="Sprite 3"]
+position = Vector2( 1, -13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 3/Area2D"]
+position = Vector2( -0.999999, 13.5 )
+shape = SubResource( 6 )

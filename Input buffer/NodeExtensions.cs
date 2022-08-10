@@ -14,14 +14,14 @@ namespace ExtensionMethods
         /// <param name="node">  The object to call this method for. </param>
         /// <typeparam name="T"> The type to look for. </typeparam>
         /// <returns> Returns an array of references to node's children. </returns>
-        public static Godot.Collections.Array GetChildrenOfType<T>(this Node node) where T : Node
+        public static Godot.Collections.Array<T> GetChildrenOfType<T>(this Node node) where T : Node
         {
-            Godot.Collections.Array toReturn = new Godot.Collections.Array();
+            Godot.Collections.Array<T> toReturn = new Godot.Collections.Array<T>();
             foreach (Node child in node.GetChildren())
             {
                 if (child is T)
                 {
-                    toReturn.Add(child);
+                    toReturn.Add((T)child);
                 }
             }
             return toReturn;

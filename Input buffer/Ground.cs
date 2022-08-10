@@ -21,7 +21,7 @@ public class Ground : Sprite
     private List<Node> _obstacles = new List<Node>();
 
     /// <summary> The obstacles that can appear on the ground </summary>
-    [Export] private PackedScene _cactus, _cactusClump, _pterodactyl;
+    [Export] private PackedScene _cactus, _cactusClump, _cactusBaby, _pterodactyl;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -58,13 +58,17 @@ public class Ground : Sprite
         {
             PackedScene obstacleScene;
             float r = rng.Randf();
-            if (r < 1 / 3f)
+            if (r < 1 / 4f)
             {
                 obstacleScene = _cactus;
             }
-            else if (r < 2 / 3f)
+            else if (r < 2 / 4f)
             {
                 obstacleScene = _cactusClump;
+            }
+            else if (r < 3 / 4f)
+            {
+                obstacleScene = _cactusBaby;
             }
             else
             {
