@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using ExtensionMethods;
 
 /// <summary>
 /// A sprite representing the ground the dino runs across.
@@ -56,24 +57,17 @@ public class Ground : Sprite
 
         while (currentPos <= Texture.GetWidth())
         {
-            PackedScene obstacleScene;
-            float r = rng.Randf();
-            if (r < 1 / 4f)
+            PackedScene obstacleScene = null;
+
+            rng.RandomAction(new List<(ushort, Action)>
             {
-                obstacleScene = _cactus;
-            }
-            else if (r < 2 / 4f)
-            {
-                obstacleScene = _cactusClump;
-            }
-            else if (r < 3 / 4f)
-            {
-                obstacleScene = _cactusBaby;
-            }
-            else
-            {
-                obstacleScene = _pterodactyl;
-            }
+                (2, () => obstacleScene = _cactus),
+                (1, () => obstacleScene = _cactusClump),
+                (1, () => obstacleScene = _cactusBaby),
+                (2, () => obstacleScene = _pterodactyl)
+            });
+
+            GD.Print(obstacleScene);
 
             Node2D obstacle = obstacleScene.Instance<Node2D>();
             obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
