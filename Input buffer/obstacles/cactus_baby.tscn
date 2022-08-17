@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
-[ext_resource path="res://Cactus.cs" type="Script" id=2]
+[ext_resource path="res://obstacles/Cactus.cs" type="Script" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4

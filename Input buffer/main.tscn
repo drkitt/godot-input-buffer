@@ -4,11 +4,11 @@
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
 [ext_resource path="res://Dino.cs" type="Script" id=3]
 [ext_resource path="res://Ground.cs" type="Script" id=4]
-[ext_resource path="res://cactus.tscn" type="PackedScene" id=5]
-[ext_resource path="res://cactus_clump.tscn" type="PackedScene" id=6]
-[ext_resource path="res://pterodactyl.tscn" type="PackedScene" id=7]
+[ext_resource path="res://obstacles/cactus.tscn" type="PackedScene" id=5]
+[ext_resource path="res://obstacles/cactus_clump.tscn" type="PackedScene" id=6]
+[ext_resource path="res://obstacles/pterodactyl.tscn" type="PackedScene" id=7]
 [ext_resource path="res://DinoGame.cs" type="Script" id=8]
-[ext_resource path="res://cactus_baby.tscn" type="PackedScene" id=9]
+[ext_resource path="res://obstacles/cactus_baby.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=13]
 resource_name = "Intro animation"
