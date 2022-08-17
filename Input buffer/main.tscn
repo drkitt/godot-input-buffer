@@ -296,6 +296,7 @@ _pterodactyl = ExtResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
 position = Vector2( 1199, 28 )
+collision_mask = 9
 __meta__ = {
 "_editor_description_": "Used to stop the dino from falling through the ground"
 }
