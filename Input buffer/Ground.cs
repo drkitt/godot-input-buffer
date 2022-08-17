@@ -47,14 +47,21 @@ public class Ground : Sprite
         SpawnObstacles();
     }
 
+    /// <summary>
+    /// Spawns obstacles along this slice of the ground. Note that this doesn't clear out existing obstacles.
+    /// </summary>
+    /// <param name="startPos"> Offset from the left edge of the ground at which to start placing obstacles. </param>
     private void SpawnObstacles(int startPos = 400)
     {
         // Min/max pixels between obstacles
         const int MIN_OFFSET = 200, MAX_OFFSET = 500;
         // The current position to spawn an obstacle at
         int currentPos = startPos;
+        // Used to randomly spawn obstacles
         RandomNumberGenerator rng = new RandomNumberGenerator();
+        rng.Randomize();
 
+        // Spawn an obstacle, step along the ground, and repeat as long as we're still on the ground.
         while (currentPos <= Texture.GetWidth())
         {
             PackedScene obstacleScene = rng.RandomValue<PackedScene>(new List<(ushort, PackedScene)>
