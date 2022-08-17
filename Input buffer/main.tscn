@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -17,7 +17,7 @@ tracks/0/path = NodePath("Right edge:polygon")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -49,6 +49,33 @@ tracks/2/keys = {
 "args": [  ],
 "method": "Start"
 } ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Right edge:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 923, 0 ), Vector2( 1660, 4 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Right edge:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
 }
 
 [sub_resource type="AtlasTexture" id=3]
@@ -242,6 +269,7 @@ _animationPlayerPath = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Intro animation" = SubResource( 13 )
+anims/RESET = SubResource( 15 )
 
 [node name="Treadmill" type="Node2D" parent="."]
 script = ExtResource( 2 )
