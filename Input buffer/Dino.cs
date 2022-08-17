@@ -33,13 +33,18 @@ public class Dino : KinematicBody2D
     private Vector2 _velocity;
     private float _gravity;
 
-    /// <summary> How many pixels per second squared the dino accelerates towards the ground at while rising. </summary>
+    /// <summary> How many pixels per second squared the dino accelerates towards the ground at normally. </summary>
     [Export] private float _regular_gravity = 2400f;
     /// <summary>
     /// How many pixels per second squared the dino accelerates towards the ground at if the player releases the jump 
     /// button while rising.
     /// </summary>
     [Export] private float _short_hop_gravity = 4800f;
+    /// <summary>
+    /// How many pixels per second squared the dino accelerates towards the ground at if the player presses and holds 
+    /// the down button.
+    /// </summary>
+    [Export] private float _fast_fall_gravity = 9600f;
     /// <summary>
     /// Pixels per second downward the dino moves the moment it jumps.
     /// Recall that the coordinate system has the positive y axis point down, so this should be negative.
@@ -143,7 +148,7 @@ public class Dino : KinematicBody2D
     }
     private void JumpingPhysicsProcess(float delta)
     {
-        // Short-hop if the player releases the jump button while rising
+        // Increase gravity if the player releases the jump button while rising.
         if (Input.IsActionJustReleased(JUMP_ACTION) && _velocity.Dot(Vector2.Up) > 0)
         {
             _gravity = _short_hop_gravity;
@@ -153,6 +158,16 @@ public class Dino : KinematicBody2D
         if (_velocity.Dot(Vector2.Up) < 0)
         {
             _gravity = _regular_gravity;
+        }
+
+        /*
+        Fast fall by pressing the down button.
+        With this implementation, the player can cancel a fast fall by releasing the button, but hey, that's how the 
+        original worked ¯\_(ツ)_/¯
+        */
+        if (Input.IsActionPressed("ui_down"))
+        {
+            _gravity = _fast_fall_gravity;
         }
 
         // Move and detect collision with the ground.
