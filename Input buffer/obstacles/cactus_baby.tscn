@@ -36,6 +36,8 @@ texture = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="Sprite 1"]
 position = Vector2( 1, -13 )
+collision_layer = 2
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 1/Area2D"]
 position = Vector2( -0.999998, 13.5 )
@@ -47,6 +49,8 @@ texture = SubResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="Sprite 2"]
 position = Vector2( 1, -13 )
+collision_layer = 2
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 2/Area2D"]
 position = Vector2( -1.5, 13.5 )
@@ -58,6 +62,8 @@ texture = SubResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="Sprite 3"]
 position = Vector2( 1, -13 )
+collision_layer = 2
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 3/Area2D"]
 position = Vector2( -0.999999, 13.5 )

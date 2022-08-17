@@ -22,6 +22,7 @@ InputBuffer="*res://systems/input_buffer.gd"
 
 2d_physics/layer_2="Obstacles"
 2d_physics/layer_3="Screen edge"
+2d_physics/layer_4="Dino"
 
 [physics]
 
