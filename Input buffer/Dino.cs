@@ -34,22 +34,22 @@ public class Dino : KinematicBody2D
     private float _gravity;
 
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at normally. </summary>
-    [Export] private float _regular_gravity = 2400f;
+    [Export] private float _regularGravity = 2400f;
     /// <summary>
     /// How many pixels per second squared the dino accelerates towards the ground at if the player releases the jump 
     /// button while rising.
     /// </summary>
-    [Export] private float _short_hop_gravity = 4800f;
+    [Export] private float _shortHopGravity = 4800f;
     /// <summary>
     /// How many pixels per second squared the dino accelerates towards the ground at if the player presses and holds 
     /// the down button.
     /// </summary>
-    [Export] private float _fast_fall_gravity = 9600f;
+    [Export] private float _fastFallGravity = 9600f;
     /// <summary>
     /// Pixels per second downward the dino moves the moment it jumps.
     /// Recall that the coordinate system has the positive y axis point down, so this should be negative.
     /// </summary>
-    [Export] private float _initial_jump_speed = 800f;
+    [Export] private float _initialJumpSpeed = 800f;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -104,8 +104,8 @@ public class Dino : KinematicBody2D
     // Intro animation state callbacks.
     private void IntroAnimationEnter()
     {
-        _velocity = _initial_jump_speed * Vector2.Up;
-        _gravity = _regular_gravity;
+        _velocity = _initialJumpSpeed * Vector2.Up;
+        _gravity = _regularGravity;
     }
     private void IntroAnimationPhysicsProcess(float delta)
     {
@@ -142,8 +142,8 @@ public class Dino : KinematicBody2D
     // Jumping state callbacks.
     private void JumpingEnter()
     {
-        _velocity = _initial_jump_speed * Vector2.Up;
-        _gravity = _regular_gravity;
+        _velocity = _initialJumpSpeed * Vector2.Up;
+        _gravity = _regularGravity;
         _animator.Play("Idle + Jump");
     }
     private void JumpingPhysicsProcess(float delta)
@@ -151,13 +151,13 @@ public class Dino : KinematicBody2D
         // Increase gravity if the player releases the jump button while rising.
         if (Input.IsActionJustReleased(JUMP_ACTION) && _velocity.Dot(Vector2.Up) > 0)
         {
-            _gravity = _short_hop_gravity;
+            _gravity = _shortHopGravity;
         }
 
         // Reset the gravity once the dino begins falling after a short hop. 
         if (_velocity.Dot(Vector2.Up) < 0)
         {
-            _gravity = _regular_gravity;
+            _gravity = _regularGravity;
         }
 
         /*
@@ -167,7 +167,7 @@ public class Dino : KinematicBody2D
         */
         if (Input.IsActionPressed("ui_down"))
         {
-            _gravity = _fast_fall_gravity;
+            _gravity = _fastFallGravity;
         }
 
         // Move and detect collision with the ground.
