@@ -296,7 +296,6 @@ _pterodactyl = ExtResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
 position = Vector2( 1199, 28 )
-collision_mask = 9
 __meta__ = {
 "_editor_description_": "Used to stop the dino from falling through the ground"
 }
@@ -376,8 +375,6 @@ __meta__ = {
 
 [node name="Dino" type="KinematicBody2D" parent="."]
 position = Vector2( 144, 220 )
-collision_layer = 8
-collision_mask = 0
 script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
@@ -401,14 +398,14 @@ anims/Run = SubResource( 5 )
 
 [node name="Regular hitbox" type="Area2D" parent="Dino"]
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Regular hitbox"]
 shape = SubResource( 2 )
 
 [node name="Ducking hitbox" type="Area2D" parent="Dino"]
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Ducking hitbox"]
 position = Vector2( 0, 40 )
