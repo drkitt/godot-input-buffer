@@ -116,7 +116,7 @@ tracks/0/keys = {
 "values": [ Rect2( 1866.2, 0, 120, 99.248 ), Rect2( 1984.28, 0, 120, 99.248 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../Regular hitbox:shape")
+tracks/1/path = NodePath("../Regular hitbox/CollisionShape2D:shape")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -128,7 +128,7 @@ tracks/1/keys = {
 "values": [ SubResource( 10 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../Regular hitbox:position")
+tracks/2/path = NodePath("../Regular hitbox/CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -173,7 +173,7 @@ tracks/1/keys = {
 "values": [ Rect2( 1337.9, 0, 87.8, 99.248 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../Regular hitbox:shape")
+tracks/2/path = NodePath("../Regular hitbox/CollisionShape2D:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -185,7 +185,7 @@ tracks/2/keys = {
 "values": [ SubResource( 2 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../Regular hitbox:position")
+tracks/3/path = NodePath("../Regular hitbox/CollisionShape2D:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -200,7 +200,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=12]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("../Regular hitbox:position")
+tracks/0/path = NodePath("../Regular hitbox/CollisionShape2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -212,7 +212,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../Regular hitbox:shape")
+tracks/1/path = NodePath("../Regular hitbox/CollisionShape2D:shape")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -380,21 +380,16 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
-_regularHitboxPath = NodePath("Regular hitbox")
-_duckingHitboxPath = NodePath("Ducking hitbox")
+_regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
+_duckingHitboxPath = NodePath("Ducking hitbox/CollisionShape2D")
+
+[node name="Ground hitbox" type="CollisionShape2D" parent="Dino"]
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Dino"]
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 1514.3, 0, 86.632, 100 )
-
-[node name="Regular hitbox" type="CollisionShape2D" parent="Dino"]
-shape = SubResource( 2 )
-
-[node name="Ducking hitbox" type="CollisionShape2D" parent="Dino"]
-position = Vector2( 0, 40 )
-shape = SubResource( 10 )
-disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Dino"]
 root_node = NodePath("../Sprite")
@@ -403,6 +398,22 @@ anims/Ducking = SubResource( 11 )
 "anims/Idle + Jump" = SubResource( 4 )
 anims/RESET = SubResource( 12 )
 anims/Run = SubResource( 5 )
+
+[node name="Regular hitbox" type="Area2D" parent="Dino"]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Regular hitbox"]
+shape = SubResource( 2 )
+
+[node name="Ducking hitbox" type="Area2D" parent="Dino"]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dino/Ducking hitbox"]
+position = Vector2( 0, 40 )
+shape = SubResource( 10 )
+disabled = true
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="WrapGround"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="WrapGround"]
