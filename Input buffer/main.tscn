@@ -415,3 +415,5 @@ disabled = true
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="WrapGround"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="WrapGround"]
 [connection signal="IntroJumpFinished" from="Dino" to="." method="ContinueIntroAnimation"]
+[connection signal="area_entered" from="Dino/Regular hitbox" to="Dino" method="OnObstacleHit"]
+[connection signal="area_entered" from="Dino/Ducking hitbox" to="Dino" method="OnObstacleHit"]

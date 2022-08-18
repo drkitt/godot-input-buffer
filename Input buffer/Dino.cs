@@ -88,6 +88,15 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
+    /// <summary>
+    /// Called when colliding with an obstacle.
+    /// </summary>
+    /// <param name="area"> The obstacle's collider. </param>
+    public void OnObstacleHit(Area2D area)
+    {
+        GD.Print("uh oh");
+    }
+
     // Idle state callbacks.
     private void IdleEnter()
     {
