@@ -88,7 +88,7 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
-    // Idle state callback.
+    // Idle state callbacks.
     private void IdleEnter()
     {
         _animator.Play("Idle + Jump");
