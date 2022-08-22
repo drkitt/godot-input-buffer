@@ -36,7 +36,7 @@ public class Ground : Sprite
     /// </summary>
     /// Keep in mind that the colliders at the edge of the screen don't have classes, so this class uses collision
     /// layers to make sure that it only wraps around when it exits the screen
-    private void WrapGround(Area2D area)
+    private void _on_Area2D_area_exited(Area2D area)
     {
         Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
         foreach (Node obstacle in _obstacles)

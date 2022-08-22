@@ -91,11 +91,15 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
+    // Signal callbacks.
+    private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
+    private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
+
     /// <summary>
     /// Called when colliding with an obstacle.
     /// </summary>
     /// <param name="area"> The obstacle's collider. </param>
-    public void OnObstacleHit(Area2D area)
+    public void OnObstacleHit()
     {
         EmitSignal(nameof(Hit), new object[0]);
         _stateMachine.TransitionTo(DinoState.Dead);

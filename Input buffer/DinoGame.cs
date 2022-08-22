@@ -24,7 +24,7 @@ public class DinoGame : Node2D
     /// Gets the game ready to play. Probably called when receiving a signal from the dino that it's finished its intro 
     /// animation.
     /// </summary>
-    public void ContinueIntroAnimation()
+    private void _on_Dino_IntroJumpFinished()
     {
         _animator.Play("Intro animation");
     }
