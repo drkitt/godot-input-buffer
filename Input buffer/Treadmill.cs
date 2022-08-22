@@ -38,6 +38,14 @@ public class Treadmill : Node2D
         }
     }
 
+    /// <summary>
+    /// Called when the dino hits an obstacle
+    /// </summary>
+    private void _on_Dino_Hit()
+    {
+        Stop();
+    }
+
     // Methods called by the scene's animation player. Isn't it nice how the two lines have the same length?
     private void Start() => _moving = true;
     private void Stop() => _moving = false;

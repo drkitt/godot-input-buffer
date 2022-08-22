@@ -12,6 +12,8 @@ public class Dino : KinematicBody2D
     /// animation.
     /// </summary>
     [Signal] private delegate void IntroJumpFinished();
+    /// <summary> Emitted after hitting an obstacle </summary>
+    [Signal] private delegate void Hit();
 
     private enum DinoState
     {
@@ -94,7 +96,7 @@ public class Dino : KinematicBody2D
     /// <param name="area"> The obstacle's collider. </param>
     public void OnObstacleHit(Area2D area)
     {
-        GD.Print("uh oh");
+        EmitSignal(nameof(Hit), new object[0]);
     }
 
     // Idle state callbacks.
