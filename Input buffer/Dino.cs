@@ -72,6 +72,7 @@ public class Dino : KinematicBody2D
                 { DinoState.Jumping, new StateSpec(enter: JumpingEnter, update: JumpingPhysicsProcess)},
                 { DinoState.Ducking, new StateSpec(
                     enter: DuckingEnter, update: DuckingPhysicsProcess, exit: DuckingExit) },
+                { DinoState.Dead, new StateSpec(enter: Die)}
             },
             DinoState.Idle
         );
@@ -97,6 +98,7 @@ public class Dino : KinematicBody2D
     public void OnObstacleHit(Area2D area)
     {
         EmitSignal(nameof(Hit), new object[0]);
+        _stateMachine.TransitionTo(DinoState.Dead);
     }
 
     // Idle state callbacks.
@@ -208,5 +210,11 @@ public class Dino : KinematicBody2D
     {
         _regularHitbox.SetDeferred("disabled", false);
         _duckingHitbox.SetDeferred("disabled", true);
+    }
+
+    // Dead state callback :(
+    private void Die()
+    {
+
     }
 }
