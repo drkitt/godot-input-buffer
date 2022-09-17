@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -263,7 +263,12 @@ tracks/1/keys = {
 "values": [ Rect2( 1514.3, 0, 86.632, 100 ), Rect2( 1602.4, 0, 86.632, 100 ) ]
 }
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 952.344, 24.2983, 386.656, 33.7017 )
+
+[node name="Root" type="Node"]
 script = ExtResource( 8 )
 _animationPlayerPath = NodePath("AnimationPlayer")
 
@@ -411,6 +416,22 @@ collision_mask = 2
 position = Vector2( 0, 40 )
 shape = SubResource( 10 )
 disabled = true
+
+[node name="UI" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 386.0
+margin_bottom = 33.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 898.0
+margin_bottom = 333.0
+rect_pivot_offset = Vector2( 189, 13 )
+texture = SubResource( 16 )
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
