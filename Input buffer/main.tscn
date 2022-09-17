@@ -270,6 +270,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 952.344, 24.2983, 386.656, 33.7017 )
 
 [sub_resource type="DynamicFont" id=17]
+size = 24
 font_data = ExtResource( 10 )
 
 [node name="Root" type="Node"]
@@ -436,12 +437,36 @@ rect_pivot_offset = Vector2( 189, 13 )
 texture = SubResource( 16 )
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="UI"]
-margin_right = 40.0
-margin_bottom = 14.0
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -361.0
+margin_top = 10.0
+margin_right = -13.0
+margin_bottom = 55.0
+grow_horizontal = 0
+
+[node name="High score" type="Label" parent="UI/HBoxContainer"]
+margin_top = 10.0
+margin_right = 192.0
+margin_bottom = 34.0
+rect_pivot_offset = Vector2( -1137, 242 )
+size_flags_horizontal = 6
+custom_colors/font_color = Color( 0.458824, 0.458824, 0.458824, 1 )
+custom_fonts/font = SubResource( 17 )
+text = "HI 00000"
+align = 2
+
+[node name="Current score" type="Label" parent="UI/HBoxContainer"]
+margin_left = 212.0
+margin_top = 10.0
+margin_right = 332.0
+margin_bottom = 34.0
+size_flags_horizontal = 6
 custom_colors/font_color = Color( 0.32549, 0.32549, 0.32549, 1 )
 custom_fonts/font = SubResource( 17 )
-text = "hello world"
+text = "00000"
+align = 2
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
