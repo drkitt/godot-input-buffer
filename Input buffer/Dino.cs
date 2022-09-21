@@ -219,6 +219,6 @@ public class Dino : KinematicBody2D
     // Dead state callback :(
     private void Die()
     {
-
+        _animator.Play("Die");
     }
 }
