@@ -39,9 +39,9 @@ public class Treadmill : Node2D
     }
 
     /// <summary>
-    /// Called when the dino hits an obstacle
+    /// Called when the game ends
     /// </summary>
-    private void _on_Dino_Hit()
+    private void _on_Root_GameOver()
     {
         Stop();
     }

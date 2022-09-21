@@ -13,7 +13,7 @@ public class Dino : KinematicBody2D
     /// </summary>
     [Signal] private delegate void IntroJumpFinished();
     /// <summary> Emitted after hitting an obstacle </summary>
-    [Signal] private delegate void Hit();
+    [Signal] private delegate void GotHit();
 
     private enum DinoState
     {
@@ -101,7 +101,7 @@ public class Dino : KinematicBody2D
     /// <param name="area"> The obstacle's collider. </param>
     public void OnObstacleHit()
     {
-        EmitSignal(nameof(Hit), new object[0]);
+        EmitSignal(nameof(GotHit), new object[0]);
         _stateMachine.TransitionTo(DinoState.Dead);
     }
 
