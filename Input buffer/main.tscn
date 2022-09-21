@@ -430,6 +430,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="Game over message" type="TextureRect" parent="UI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 2
@@ -471,6 +472,7 @@ text = "00000"
 align = 2
 
 [connection signal="GameOver" from="." to="Treadmill" method="_on_Root_GameOver"]
+[connection signal="GameOver" from="." to="UI/Game over message" method="_on_Root_GameOver"]
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
 [connection signal="GotHit" from="Dino" to="." method="_on_Dino_GotHit"]
