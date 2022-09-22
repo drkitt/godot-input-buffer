@@ -38,15 +38,6 @@ public class Treadmill : Node2D
         }
     }
 
-    /// <summary>
-    /// Called when the game ends
-    /// </summary>
-    private void _on_Dino_GotHit()
-    {
-        Stop();
-    }
-
-    // Methods called by the scene's animation player. Isn't it nice how the two lines have the same length?
+    // No idea what this one does sorry
     private void Start() => _moving = true;
-    private void Stop() => _moving = false;
 }

@@ -445,6 +445,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="Game over message" type="TextureRect" parent="UI"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -488,7 +489,6 @@ align = 2
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
-[connection signal="GotHit" from="Dino" to="Treadmill" method="_on_Dino_GotHit"]
 [connection signal="GotHit" from="Dino" to="UI/Game over message" method="_on_Dino_GotHit"]
 [connection signal="IntroJumpFinished" from="Dino" to="AnimationPlayer" method="_on_Dino_IntroJumpFinished"]
 [connection signal="area_entered" from="Dino/Regular hitbox" to="Dino" method="_on_Regular_hitbox_area_entered"]
