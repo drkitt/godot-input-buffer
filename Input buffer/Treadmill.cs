@@ -41,7 +41,7 @@ public class Treadmill : Node2D
     /// <summary>
     /// Called when the game ends
     /// </summary>
-    private void _on_Root_GameOver()
+    private void _on_Dino_GotHit()
     {
         Stop();
     }

@@ -6,7 +6,7 @@ using System;
 /// </summary>
 public class GameOverMessage : TextureRect
 {
-    private void _on_Root_GameOver()
+    private void _on_Dino_GotHit()
     {
         Visible = true;
     }

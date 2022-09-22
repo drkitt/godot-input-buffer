@@ -7,7 +7,7 @@
 [ext_resource path="res://obstacles/cactus.tscn" type="PackedScene" id=5]
 [ext_resource path="res://obstacles/cactus_clump.tscn" type="PackedScene" id=6]
 [ext_resource path="res://obstacles/pterodactyl.tscn" type="PackedScene" id=7]
-[ext_resource path="res://DinoGame.cs" type="Script" id=8]
+[ext_resource path="res://DinoGameAnimator.cs" type="Script" id=8]
 [ext_resource path="res://obstacles/cactus_baby.tscn" type="PackedScene" id=9]
 [ext_resource path="res://PressStart2P-Regular.ttf" type="DynamicFontData" id=10]
 [ext_resource path="res://GameOverMessage.cs" type="Script" id=11]
@@ -290,12 +290,11 @@ size = 24
 font_data = ExtResource( 10 )
 
 [node name="Root" type="Node"]
-script = ExtResource( 8 )
-_animationPlayerPath = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Intro animation" = SubResource( 13 )
 anims/RESET = SubResource( 15 )
+script = ExtResource( 8 )
 
 [node name="Treadmill" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -487,11 +486,10 @@ custom_fonts/font = SubResource( 17 )
 text = "00000"
 align = 2
 
-[connection signal="GameOver" from="." to="Treadmill" method="_on_Root_GameOver"]
-[connection signal="GameOver" from="." to="UI/Game over message" method="_on_Root_GameOver"]
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
-[connection signal="GotHit" from="Dino" to="." method="_on_Dino_GotHit"]
-[connection signal="IntroJumpFinished" from="Dino" to="." method="_on_Dino_IntroJumpFinished"]
+[connection signal="GotHit" from="Dino" to="Treadmill" method="_on_Dino_GotHit"]
+[connection signal="GotHit" from="Dino" to="UI/Game over message" method="_on_Dino_GotHit"]
+[connection signal="IntroJumpFinished" from="Dino" to="AnimationPlayer" method="_on_Dino_IntroJumpFinished"]
 [connection signal="area_entered" from="Dino/Regular hitbox" to="Dino" method="_on_Regular_hitbox_area_entered"]
 [connection signal="area_entered" from="Dino/Ducking hitbox" to="Dino" method="_on_Ducking_hitbox_area_entered"]

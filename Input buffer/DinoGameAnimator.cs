@@ -10,33 +10,11 @@ using System;
 /// objects communicate with each other using their signals directly. So, there's gonna be coupling in the editor either
 /// way, and I'd rather put it all in an AnimationPlayer than spread it across the scene. Plus, putting it in an 
 /// animation makes it waaaay easier to manage timing.
-public class DinoGame : Node
+public class DinoGameAnimator : AnimationPlayer
 {
-    /// <summary> Emitted when the game ends </summary>
-    [Signal] private delegate void GameOver();
-
-    private AnimationPlayer _animator; [Export] private NodePath _animationPlayerPath;
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        _animator = GetNode<AnimationPlayer>(_animationPlayerPath);
-    }
-
-    /// <summary>
-    /// Gets the game ready to play. Probably called when receiving a signal from the dino that it's finished its intro 
-    /// animation.
-    /// </summary>
+    /// <summary> Gets the game ready to play. </summary>
     private void _on_Dino_IntroJumpFinished()
     {
-        _animator.Play("Intro animation");
-    }
-
-    /// <summary>
-    /// Ends the game. Called when receiving a signal from the dino that it got hit.
-    /// </summary>
-    private void _on_Dino_GotHit()
-    {
-        EmitSignal(nameof(GameOver), new object[0]);
+        Play("Intro animation");
     }
 }
