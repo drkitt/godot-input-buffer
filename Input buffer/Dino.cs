@@ -223,5 +223,6 @@ public class Dino : KinematicBody2D
     private void Die()
     {
         _animator.Play("Die");
+        _animator.Advance(0);
     }
 }
