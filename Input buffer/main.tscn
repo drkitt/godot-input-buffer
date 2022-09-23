@@ -65,6 +65,48 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( 923, 0 ), Vector2( 1660, 4 ) ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath("Cloud 1")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Start"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("Cloud 2")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Start"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Cloud 3")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Start"
+} ]
+}
 
 [sub_resource type="Animation" id=15]
 length = 0.001
@@ -378,13 +420,13 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/Area2D"]
 shape = SubResource( 8 )
 
-[node name="Cloud" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 1" parent="." instance=ExtResource( 13 )]
 position = Vector2( 401, 127 )
 
-[node name="Cloud2" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 2" parent="." instance=ExtResource( 13 )]
 position = Vector2( 783, 71 )
 
-[node name="Cloud3" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 3" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1072, 151 )
 
 [node name="Left edge" type="Polygon2D" parent="."]
@@ -400,7 +442,7 @@ position = Vector2( 50.25, 300.25 )
 shape = SubResource( 9 )
 
 [node name="Right edge" type="Polygon2D" parent="."]
-position = Vector2( 1660, 4 )
+position = Vector2( 923, 0 )
 color = Color( 0.968627, 0.968627, 0.968627, 1 )
 polygon = PoolVector2Array( -734, 0, 100, 0, 100, 600, -734, 600 )
 
@@ -415,7 +457,7 @@ __meta__ = {
 }
 
 [node name="Dino" type="KinematicBody2D" parent="."]
-position = Vector2( 154, 220 )
+position = Vector2( 144, 220 )
 script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
