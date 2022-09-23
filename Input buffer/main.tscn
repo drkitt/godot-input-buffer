@@ -377,6 +377,8 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/Area2D"]
 shape = SubResource( 8 )
 
+[node name="Cloud spawner" type="Node2D" parent="."]
+
 [node name="Left edge" type="Polygon2D" parent="."]
 color = Color( 0.968627, 0.968627, 0.968627, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
