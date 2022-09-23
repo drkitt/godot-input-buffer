@@ -411,7 +411,7 @@ _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
 _duckingHitboxPath = NodePath("Ducking hitbox/CollisionShape2D")
 _regularGravity = 3600.0
-_shortHopGravity = 5400.0
+_shortHopGravity = 7200.0
 _initialJumpSpeed = 1100.0
 
 [node name="Ground hitbox" type="CollisionShape2D" parent="Dino"]
