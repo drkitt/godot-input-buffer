@@ -450,6 +450,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="Game over screen" type="Control" parent="UI"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -458,10 +459,9 @@ grow_vertical = 2
 script = ExtResource( 11 )
 
 [node name="Message" type="TextureRect" parent="UI/Game over screen"]
-pause_mode = 2
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_bottom = 13.0
+anchor_bottom = 0.357
+margin_bottom = -0.200012
 grow_horizontal = 2
 grow_vertical = 2
 rect_pivot_offset = Vector2( 189, 13 )
@@ -470,13 +470,13 @@ stretch_mode = 4
 
 [node name="Retry button" type="TextureButton" parent="UI/Game over screen"]
 anchor_left = 0.5
-anchor_top = 0.364
+anchor_top = 0.302
 anchor_right = 0.5
-anchor_bottom = 0.364
+anchor_bottom = 0.302
 margin_left = -35.0
-margin_top = -28.4
-margin_right = 36.0
-margin_bottom = 35.6
+margin_top = -20.0
+margin_right = 35.0
+margin_bottom = 24.8
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = SubResource( 19 )
@@ -502,9 +502,9 @@ text = "HI 00000"
 align = 2
 
 [node name="Current score" type="Label" parent="UI/HBoxContainer"]
-margin_left = 212.0
+margin_left = 214.0
 margin_top = 10.0
-margin_right = 332.0
+margin_right = 334.0
 margin_bottom = 34.0
 size_flags_horizontal = 6
 custom_colors/font_color = Color( 0.32549, 0.32549, 0.32549, 1 )
@@ -518,3 +518,9 @@ align = 2
 [connection signal="IntroJumpFinished" from="Dino" to="AnimationPlayer" method="_on_Dino_IntroJumpFinished"]
 [connection signal="area_entered" from="Dino/Regular hitbox" to="Dino" method="_on_Regular_hitbox_area_entered"]
 [connection signal="area_entered" from="Dino/Ducking hitbox" to="Dino" method="_on_Ducking_hitbox_area_entered"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="AnimationPlayer" method="_on_Retry_button_pressed"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="Treadmill" method="_on_Retry_button_pressed"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="Treadmill/Ground 1" method="_on_Retry_button_pressed"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="Treadmill/Ground 2" method="_on_Retry_button_pressed"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="Dino" method="_on_Retry_button_pressed"]
+[connection signal="pressed" from="UI/Game over screen/Retry button" to="UI/Game over screen" method="_on_Retry_button_pressed"]

@@ -12,9 +12,22 @@ using System;
 /// animation makes it waaaay easier to manage timing.
 public class DinoGameAnimator : AnimationPlayer
 {
+    private static readonly string INTRO_ANIMATION = "Intro animation";
+
     /// <summary> Gets the game ready to play. </summary>
     private void _on_Dino_IntroJumpFinished()
     {
-        Play("Intro animation");
+        Play(INTRO_ANIMATION);
+    }
+
+    /// <summary> Gets the game ready to play again. </summary>
+    private void _on_Retry_button_pressed()
+    {
+        /* 
+        Playing the last split second of the animation allows us to essentially apply the animation's effects instantly.
+        */
+        CurrentAnimation = INTRO_ANIMATION;
+        Advance(CurrentAnimationLength - 0.1f);
+        Play();
     }
 }

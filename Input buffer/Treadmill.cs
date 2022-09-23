@@ -11,16 +11,19 @@ public class Treadmill : Node2D
     /// <summary> Pixels per second per second the ground accelerates at. </summary>
     [Export] private float _acceleration = 0f;
     /// <summary> The sprites used for the ground. </summary>
-    private Node2D _ground1, _ground2; [Export] private NodePath _groundPath1, _groundPath2;
+    private Ground _ground1, _ground2; [Export] private NodePath _groundPath1, _groundPath2;
     private bool _moving = false;
+    private Vector2 _initialGroundPosition;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
     {
-        _ground1 = GetNode<Node2D>(_groundPath1);
-        _ground2 = GetNode<Node2D>(_groundPath2);
+        _ground1 = GetNode<Ground>(_groundPath1);
+        _ground2 = GetNode<Ground>(_groundPath2);
+
+        _initialGroundPosition = _ground1.Position;
     }
 
     /// <summary>
@@ -38,6 +41,18 @@ public class Treadmill : Node2D
         }
     }
 
-    // No idea what this one does sorry
+    /// <summary>
+    /// Called when the player presses the retry button.
+    /// </summary>
+    private void _on_Retry_button_pressed()
+    {
+        _ground1.Position = _initialGroundPosition;
+        _ground2.Position = _initialGroundPosition + Vector2.Right * _ground1.Texture.GetWidth();
+        Start();
+    }
+
+    /// <summary>
+    /// Starts the treadmill? This method's inner workings are a mystery.
+    /// </summary>
     private void Start() => _moving = true;
 }

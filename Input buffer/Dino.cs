@@ -27,6 +27,7 @@ public class Dino : KinematicBody2D
 
     private static readonly string JUMP_ACTION = "ui_select";
     private static readonly string DUCK_ACTION = "ui_down";
+    private static readonly string RUN_ANIMATION = "Run";
 
     private StateMachine<DinoState> _stateMachine;
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
@@ -94,12 +95,13 @@ public class Dino : KinematicBody2D
     // Signal callbacks.
     private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
+    private void _on_Retry_button_pressed() => _stateMachine.TransitionTo(DinoState.Grounded);
 
     /// <summary>
     /// Called when colliding with an obstacle.
     /// </summary>
     /// <param name="area"> The obstacle's collider. </param>
-    public void OnObstacleHit()
+    private void OnObstacleHit()
     {
         EmitSignal(nameof(GotHit), new object[0]);
         _stateMachine.TransitionTo(DinoState.Dead);
@@ -143,7 +145,7 @@ public class Dino : KinematicBody2D
     // Grounded state callbacks.
     private void GroundedEnter()
     {
-        _animator.Play("Run");
+        _animator.Play(RUN_ANIMATION);
     }
     private void GroundedPhysicsProcess(float delta)
     {

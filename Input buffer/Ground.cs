@@ -32,19 +32,15 @@ public class Ground : Sprite
     }
 
     /// <summary>
-    /// Teleports the ground sprite behind the other one. Called when it exits the screen.
+    /// Removes all obstacles that belong to this slice of the ground.
     /// </summary>
-    /// Keep in mind that the colliders at the edge of the screen don't have classes, so this class uses collision
-    /// layers to make sure that it only wraps around when it exits the screen
-    private void _on_Area2D_area_exited(Area2D area)
+    public void DespawnObstacles()
     {
-        Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
         foreach (Node obstacle in _obstacles)
         {
             obstacle.QueueFree();
         }
         _obstacles.Clear();
-        SpawnObstacles();
     }
 
     /// <summary>
@@ -80,5 +76,26 @@ public class Ground : Sprite
             int offset = rng.RandiRange(MIN_OFFSET, MAX_OFFSET);
             currentPos += offset;
         }
+    }
+
+    /// <summary>
+    /// Teleports the ground sprite behind the other one. Called when it exits the screen.
+    /// </summary>
+    /// Keep in mind that the colliders at the edge of the screen don't have classes, so this class uses collision
+    /// layers to make sure that it only wraps around when it exits the screen
+    private void _on_Area2D_area_exited(Area2D area)
+    {
+        Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
+        DespawnObstacles();
+        SpawnObstacles();
+    }
+
+    /// <summary>
+    /// Resets the ground without messing with the position.
+    /// </summary>
+    private void _on_Retry_button_pressed()
+    {
+        DespawnObstacles();
+        SpawnObstacles(_initialObstaclePos);
     }
 }
