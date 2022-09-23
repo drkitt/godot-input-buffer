@@ -307,6 +307,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 _speed = 800.0
+_acceleration = 10.0
 _groundPath1 = NodePath("Ground 1")
 _groundPath2 = NodePath("Ground 2")
 
