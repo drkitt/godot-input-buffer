@@ -6,12 +6,23 @@ using System;
 /// </summary>
 public class GameOverMessage : Control
 {
+    private TextureButton _retryButton; [Export] private NodePath _retryButtonPath;
+
+    /// <summary>
+    /// Called when the node enters the scene tree for the first time.
+    /// </summary>
+    public override void _Ready()
+    {
+        _retryButton = GetNode<TextureButton>(_retryButtonPath);
+    }
+
     /// <summary>
     /// Appear when the dino gets hit.
     /// </summary>
     private void _on_Dino_GotHit()
     {
         Visible = true;
+        _retryButton.CallDeferred("grab_focus");
     }
 
     /// <summary>
