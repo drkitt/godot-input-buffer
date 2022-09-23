@@ -50,7 +50,7 @@ public class Ground : Sprite
     private void SpawnObstacles(int startPos = 400)
     {
         // Min/max pixels between obstacles
-        const int MIN_OFFSET = 200, MAX_OFFSET = 500;
+        const int MIN_OFFSET = 450, MAX_OFFSET = 800;
         // The current position to spawn an obstacle at
         int currentPos = startPos;
         // Used to randomly spawn obstacles
