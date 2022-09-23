@@ -7,11 +7,12 @@ using System;
 public class Treadmill : Node2D
 {
     /// <summary> Pixels per second the ground moves at. </summary>
-    [Export] private float _speed = 10f;
+    [Export] private float _initialSpeed = 10f;
     /// <summary> Pixels per second per second the ground accelerates at. </summary>
     [Export] private float _acceleration = 0f;
     /// <summary> The sprites used for the ground. </summary>
     private Ground _ground1, _ground2; [Export] private NodePath _groundPath1, _groundPath2;
+    private float _speed;
     private bool _moving = false;
     private Vector2 _initialGroundPosition;
 
@@ -24,6 +25,7 @@ public class Treadmill : Node2D
         _ground2 = GetNode<Ground>(_groundPath2);
 
         _initialGroundPosition = _ground1.Position;
+        _speed = _initialSpeed;
     }
 
     /// <summary>
@@ -48,6 +50,8 @@ public class Treadmill : Node2D
     {
         _ground1.Position = _initialGroundPosition;
         _ground2.Position = _initialGroundPosition + Vector2.Right * _ground1.Texture.GetWidth();
+        _speed = _initialSpeed;
+
         Start();
     }
 
