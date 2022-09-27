@@ -422,12 +422,18 @@ shape = SubResource( 8 )
 
 [node name="Cloud 1" parent="." instance=ExtResource( 13 )]
 position = Vector2( 401, 127 )
+_respawnPointPath = NodePath("../Cloud respawn position")
 
 [node name="Cloud 2" parent="." instance=ExtResource( 13 )]
 position = Vector2( 783, 71 )
+_respawnPointPath = NodePath("../Cloud respawn position")
 
 [node name="Cloud 3" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1072, 151 )
+_respawnPointPath = NodePath("../Cloud respawn position")
+
+[node name="Cloud respawn position" type="Position2D" parent="."]
+position = Vector2( 1072, 20 )
 
 [node name="Left edge" type="Polygon2D" parent="."]
 color = Color( 0.968627, 0.968627, 0.968627, 1 )

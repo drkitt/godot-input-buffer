@@ -81,8 +81,9 @@ public class Ground : Sprite
     /// <summary>
     /// Teleports the ground sprite behind the other one. Called when it exits the screen.
     /// </summary>
+    /// <param name="area"> The area that represents the edge of the screen. </param>
     /// Keep in mind that the colliders at the edge of the screen don't have classes, so this class uses collision
-    /// layers to make sure that it only wraps around when it exits the screen
+    /// layers to make sure that it only wraps around when it exits the screen.
     private void _on_Area2D_area_exited(Area2D area)
     {
         Position = Vector2.Right * _otherGround.Texture.GetWidth() + _otherGround.Position;
