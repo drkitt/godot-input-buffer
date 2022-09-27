@@ -9,7 +9,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 446.374, 0.898, 33.4, 70.8199 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 33.5 )
+extents = Vector2( 13, 29 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
@@ -17,7 +17,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 480.627, 0.898, 67.142, 70.8199 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 29.5, 33.5 )
+extents = Vector2( 28.5, 30.5 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -25,7 +25,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 548.379, 0.898, 101.191, 70.8199 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 44, 33.5 )
+extents = Vector2( 41, 30.5 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
@@ -40,7 +40,7 @@ collision_layer = 2
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 1/Area2D"]
-position = Vector2( -0.999998, 13.5 )
+position = Vector2( -0.999998, 18 )
 shape = SubResource( 2 )
 
 [node name="Sprite 2" type="Sprite" parent="."]
@@ -53,7 +53,7 @@ collision_layer = 2
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 2/Area2D"]
-position = Vector2( -1.5, 13.5 )
+position = Vector2( -1.5, 16.5 )
 shape = SubResource( 5 )
 
 [node name="Sprite 3" type="Sprite" parent="."]
@@ -66,5 +66,5 @@ collision_layer = 2
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite 3/Area2D"]
-position = Vector2( -0.999999, 13.5 )
+position = Vector2( -0.999999, 16.5 )
 shape = SubResource( 6 )

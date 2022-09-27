@@ -138,7 +138,7 @@ extents = Vector2( 49.75, 299.75 )
 extents = Vector2( 417, 299.75 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 31, 50 )
+extents = Vector2( 24, 50 )
 
 [sub_resource type="Animation" id=18]
 resource_name = "Die"

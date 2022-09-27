@@ -24,7 +24,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 801.981, 0.898, 47.9242, 102.988 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 25.01, 46 )
+extents = Vector2( 19, 40 )
 
 [node name="Cactus" type="Node2D"]
 script = ExtResource( 2 )
@@ -51,5 +51,5 @@ collision_layer = 2
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0, -2 )
+position = Vector2( -4.76837e-07, 4 )
 shape = SubResource( 6 )
