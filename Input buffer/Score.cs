@@ -6,6 +6,14 @@ using System;
 /// </summary>
 public class Score : Label
 {
+    /// <summary> Passed to ToString to display the score. </summary>
+    public static readonly string SCORE_FORMAT = "00000";
+
+    /// <summary>
+    /// Interface for getting the value the label is showing.
+    /// </summary>
+    public float DisplayedValue { get => _score; }
+
     /// <summary> How many points the player gains per second. </summary>
     [Export] private float _speed = 10;
     private float _score = 0;
@@ -22,7 +30,7 @@ public class Score : Label
             _score += _speed * delta;
 
             // Display the score on the label.
-            Text = _score.ToString("00000");
+            Text = _score.ToString(SCORE_FORMAT);
         }
     }
 
