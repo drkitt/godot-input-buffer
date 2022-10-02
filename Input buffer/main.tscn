@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -353,6 +353,47 @@ region = Rect2( 1.5369, 1.25722, 73.0468, 65.6811 )
 size = 24
 font_data = ExtResource( 10 )
 
+[sub_resource type="Animation" id=20]
+resource_name = "Blink"
+length = 2.0
+step = 0.27
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:_updating")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.27, 0.54, 0.81, 1.08, 1.35, 1.62, 1.89, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, true, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.27, 0.54, 0.81, 1.08, 1.35, 1.62, 1.89, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [node name="Root" type="Node"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -578,7 +619,6 @@ size_flags_horizontal = 6
 custom_colors/font_color = Color( 0.458824, 0.458824, 0.458824, 1 )
 custom_fonts/font = SubResource( 17 )
 text = "HI 00000"
-align = 2
 script = ExtResource( 14 )
 _scoreNodePath = NodePath("../Current score")
 
@@ -593,11 +633,20 @@ custom_fonts/font = SubResource( 17 )
 text = "00000"
 align = 2
 script = ExtResource( 12 )
+_updating = true
+_animationPlayerPath = NodePath("AnimationPlayer")
+_timerPath = NodePath("Timer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HBoxContainer/Current score"]
+anims/Blink = SubResource( 20 )
+
+[node name="Timer" type="Timer" parent="UI/HBoxContainer/Current score"]
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
 [connection signal="GotHit" from="Dino" to="UI/Game over screen" method="_on_Dino_GotHit"]
 [connection signal="GotHit" from="Dino" to="UI/HBoxContainer/High score" method="_on_Dino_GotHit"]
+[connection signal="GotHit" from="Dino" to="UI/HBoxContainer/Current score" method="_on_Dino_GotHit"]
 [connection signal="IntroJumpFinished" from="Dino" to="AnimationPlayer" method="_on_Dino_IntroJumpFinished"]
 [connection signal="area_entered" from="Dino/Regular hitbox" to="Dino" method="_on_Regular_hitbox_area_entered"]
 [connection signal="area_entered" from="Dino/Ducking hitbox" to="Dino" method="_on_Ducking_hitbox_area_entered"]
@@ -607,3 +656,4 @@ script = ExtResource( 12 )
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="Treadmill/Ground 2" method="_on_Retry_button_pressed"]
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="Dino" method="_on_Retry_button_pressed"]
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="UI/Game over screen" method="_on_Retry_button_pressed"]
+[connection signal="timeout" from="UI/HBoxContainer/Current score/Timer" to="UI/HBoxContainer/Current score" method="_on_Timer_timeout"]
