@@ -418,12 +418,12 @@ position = Vector2( 100, 251 )
 texture = SubResource( 3 )
 centered = false
 script = ExtResource( 4 )
-_initialObstaclePos = 2000
-_otherGroundPath = NodePath("../Ground 2")
 _cactus = ExtResource( 5 )
 _cactusClump = ExtResource( 6 )
 _cactusBaby = ExtResource( 9 )
 _pterodactyl = ExtResource( 7 )
+_initialObstaclePos = 2000
+_otherGroundPath = NodePath("../Ground 2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
 position = Vector2( 1199, 28 )
@@ -450,12 +450,12 @@ position = Vector2( 2500, 251 )
 texture = SubResource( 3 )
 centered = false
 script = ExtResource( 4 )
-_initialObstaclePos = 400
-_otherGroundPath = NodePath("../Ground 1")
 _cactus = ExtResource( 5 )
 _cactusClump = ExtResource( 6 )
 _cactusBaby = ExtResource( 9 )
 _pterodactyl = ExtResource( 7 )
+_initialObstaclePos = 400
+_otherGroundPath = NodePath("../Ground 1")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 2"]
 position = Vector2( 1199, 28 )
@@ -634,13 +634,17 @@ text = "00000"
 align = 2
 script = ExtResource( 12 )
 _updating = true
+_pterodactylMilestone = 450.0
 _animationPlayerPath = NodePath("AnimationPlayer")
-_timerPath = NodePath("Timer")
+_blinkTimerPath = NodePath("Blink timer")
+_pterodactylTimerPath = NodePath("Pterodactyl timer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HBoxContainer/Current score"]
 anims/Blink = SubResource( 20 )
 
-[node name="Timer" type="Timer" parent="UI/HBoxContainer/Current score"]
+[node name="Blink timer" type="Timer" parent="UI/HBoxContainer/Current score"]
+
+[node name="Pterodactyl timer" type="Timer" parent="UI/HBoxContainer/Current score"]
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
@@ -656,4 +660,6 @@ anims/Blink = SubResource( 20 )
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="Treadmill/Ground 2" method="_on_Retry_button_pressed"]
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="Dino" method="_on_Retry_button_pressed"]
 [connection signal="pressed" from="UI/Game over screen/Retry button" to="UI/Game over screen" method="_on_Retry_button_pressed"]
-[connection signal="timeout" from="UI/HBoxContainer/Current score/Timer" to="UI/HBoxContainer/Current score" method="_on_Timer_timeout"]
+[connection signal="PterodactylTime" from="UI/HBoxContainer/Current score" to="Treadmill/Ground 1" method="_on_Current_score_PterodactylTime"]
+[connection signal="timeout" from="UI/HBoxContainer/Current score/Blink timer" to="UI/HBoxContainer/Current score" method="_on_Blink_timer_timeout"]
+[connection signal="timeout" from="UI/HBoxContainer/Current score/Pterodactyl timer" to="UI/HBoxContainer/Current score" method="_on_Pterodactyl_timer_timeout"]

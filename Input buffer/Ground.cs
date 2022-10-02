@@ -8,6 +8,8 @@ using ExtensionMethods;
 /// </summary>
 public class Ground : Sprite
 {
+    /// <summary> The obstacles that can appear on the ground </summary>
+    [Export] private PackedScene _cactus, _cactusClump, _cactusBaby, _pterodactyl;
     /// <summary>
     ///  Where to spawn the first obstacle when the ground is initialized.
     /// Useful to give the player a bit of space at the very start of the game.
@@ -20,9 +22,8 @@ public class Ground : Sprite
     private Ground _otherGround; [Export] private NodePath _otherGroundPath;
     /// <summary> The obstacles on this segment of the ground. </summary>
     private List<Node> _obstacles = new List<Node>();
-
-    /// <summary> The obstacles that can appear on the ground </summary>
-    [Export] private PackedScene _cactus, _cactusClump, _cactusBaby, _pterodactyl;
+    /// <summary> Whether it's legal to spawn pterodactyls. </summary>
+    private bool _canSpawnPterodactyls = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -60,13 +61,27 @@ public class Ground : Sprite
         // Spawn an obstacle, step along the ground, and repeat as long as we're still on the ground.
         while (currentPos <= Texture.GetWidth())
         {
-            PackedScene obstacleScene = rng.RandomValue<PackedScene>(new List<(ushort, PackedScene)>
+            PackedScene obstacleScene;
+
+            if (_canSpawnPterodactyls)
             {
-                (2, _cactus),
-                (1, _cactusClump),
-                (1, _cactusBaby),
-                (2, _pterodactyl)
-            });
+                obstacleScene = rng.RandomValue<PackedScene>(new List<(ushort, PackedScene)>
+                {
+                    (2, _cactus),
+                    (1, _cactusClump),
+                    (1, _cactusBaby),
+                    (2, _pterodactyl)
+                });
+            }
+            else
+            {
+                obstacleScene = rng.RandomValue<PackedScene>(new List<(ushort, PackedScene)>
+                {
+                    (2, _cactus),
+                    (1, _cactusClump),
+                    (1, _cactusBaby),
+                });
+            }
 
             Node2D obstacle = obstacleScene.Instance<Node2D>();
             obstacle.Position = new Vector2(currentPos, obstacle.Position.y);
@@ -97,6 +112,15 @@ public class Ground : Sprite
     private void _on_Retry_button_pressed()
     {
         DespawnObstacles();
+        _canSpawnPterodactyls = false;
         SpawnObstacles(_initialObstaclePos);
+    }
+
+    /// <summary>
+    /// Starts spawning pterodactyls.
+    /// </summary>
+    private void _on_Current_score_PterodactylTime()
+    {
+        _canSpawnPterodactyls = true;
     }
 }
