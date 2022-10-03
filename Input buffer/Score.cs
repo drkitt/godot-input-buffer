@@ -28,11 +28,11 @@ public class Score : Label
     /// </summary>
     [Export] private float _pterodactylMilestone = 500;
     /// <summary> Makes the score blink when the player reaches a milestone. </summary>
-    private AnimationPlayer _animator; [Export] private NodePath _animationPlayerPath;
+    private AnimationPlayer _animator; [Export] private NodePath _animationPlayerPath = null;
     /// <summary> Keeps track of when the score should blink. </summary>
-    private Timer _blinkTimer; [Export] private NodePath _blinkTimerPath;
+    private Timer _blinkTimer; [Export] private NodePath _blinkTimerPath = null;
     /// <summary> Keeps track of when to emit the pterodactyl-spawning signal. </summary>
-    private Timer _pterodactylTimer; [Export] private NodePath _pterodactylTimerPath;
+    private Timer _pterodactylTimer; [Export] private NodePath _pterodactylTimerPath = null;
 
     private float _score = 0;
     private bool _moving = false;

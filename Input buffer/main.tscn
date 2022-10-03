@@ -422,7 +422,6 @@ _cactus = ExtResource( 5 )
 _cactusClump = ExtResource( 6 )
 _cactusBaby = ExtResource( 9 )
 _pterodactyl = ExtResource( 7 )
-_initialObstaclePos = 2000
 _otherGroundPath = NodePath("../Ground 2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]

@@ -7,7 +7,7 @@ using System;
 public class HighScore : Label
 {
     /// <summary> Node keeping track of the score </summary>
-    private Score _scoreNode; [Export] private NodePath _scoreNodePath;
+    private Score _scoreNode; [Export] private NodePath _scoreNodePath = null;
     private float _highScore = 0;
 
     /// <summary>

@@ -9,17 +9,17 @@ using ExtensionMethods;
 public class Ground : Sprite
 {
     /// <summary> The obstacles that can appear on the ground </summary>
-    [Export] private PackedScene _cactus, _cactusClump, _cactusBaby, _pterodactyl;
+    [Export] private PackedScene _cactus = null, _cactusClump = null, _cactusBaby = null, _pterodactyl = null;
     /// <summary>
     ///  Where to spawn the first obstacle when the ground is initialized.
     /// Useful to give the player a bit of space at the very start of the game.
     /// </summary>
-    [Export] private int _initialObstaclePos;
+    [Export] private int _initialObstaclePos = 2000;
     /// <summary>
     /// Reference to the other ground sprite. When one sprite goes offscreen, it teleports behind the other one to give
     /// the appearance of a single endless ground sprite.
     /// </summary>
-    private Ground _otherGround; [Export] private NodePath _otherGroundPath;
+    private Ground _otherGround; [Export] private NodePath _otherGroundPath = null;
     /// <summary> The obstacles on this segment of the ground. </summary>
     private List<Node> _obstacles = new List<Node>();
     /// <summary> Whether it's legal to spawn pterodactyls. </summary>

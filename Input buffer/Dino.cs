@@ -30,9 +30,9 @@ public class Dino : KinematicBody2D
     private static readonly string RUN_ANIMATION = "Run";
 
     private StateMachine<DinoState> _stateMachine;
-    private AnimationPlayer _animator; [Export] private NodePath _animation_player_path;
-    private CollisionShape2D _regularHitbox; [Export] private NodePath _regularHitboxPath;
-    private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath;
+    private AnimationPlayer _animator; [Export] private NodePath _animation_player_path = null;
+    private CollisionShape2D _regularHitbox; [Export] private NodePath _regularHitboxPath = null;
+    private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath = null;
     private Vector2 _velocity;
     private float _gravity;
 

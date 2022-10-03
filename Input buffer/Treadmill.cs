@@ -11,7 +11,7 @@ public class Treadmill : Node2D
     /// <summary> Pixels per second per second the ground accelerates at. </summary>
     [Export] private float _acceleration = 0f;
     /// <summary> The sprites used for the ground. </summary>
-    private Ground _ground1, _ground2; [Export] private NodePath _groundPath1, _groundPath2;
+    private Ground _ground1, _ground2; [Export] private NodePath _groundPath1 = null, _groundPath2 = null;
     private float _speed;
     private bool _moving = false;
     private Vector2 _initialGroundPosition;

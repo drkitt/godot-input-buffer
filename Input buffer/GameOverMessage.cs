@@ -6,7 +6,7 @@ using System;
 /// </summary>
 public class GameOverMessage : Control
 {
-    private TextureButton _retryButton; [Export] private NodePath _retryButtonPath;
+    private TextureButton _retryButton; [Export] private NodePath _retryButtonPath = null;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.

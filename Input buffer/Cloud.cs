@@ -7,11 +7,11 @@ using System;
 public class Cloud : Node2D
 {
     /// <summary> Just how lazily the cloud moves across the background </summary>
-    [Export] private float _speed;
+    [Export] private float _speed = 50;
     /// <summary> When respawning, the cloud can go between 0 and this many units above the respawn point. </summary>
-    [Export] private float _maxYOffset;
+    [Export] private float _maxYOffset = 150;
     /// <summary> Where to teleport to after leaving the screen </summary>
-    private Position2D _respawnPoint; [Export] private NodePath _respawnPointPath;
+    private Position2D _respawnPoint; [Export] private NodePath _respawnPointPath = null;
     private bool _moving = false;
     private RandomNumberGenerator _rng;
 
