@@ -25,7 +25,7 @@ public class Dino : KinematicBody2D
         Dead
     }
 
-    private static readonly string JUMP_ACTION = "ui_select";
+    private static readonly string JUMP_ACTION = "ui_accept";
     private static readonly string DUCK_ACTION = "ui_down";
     private static readonly string RUN_ANIMATION = "Run";
 
@@ -92,6 +92,14 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            GD.Print(OS.GetScancodeString(keyEvent.PhysicalScancode));
+        }
+    }
+
     // Signal callbacks.
     private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
@@ -117,6 +125,7 @@ public class Dino : KinematicBody2D
     {
         if (Input.IsActionJustPressed(JUMP_ACTION))
         {
+            GD.Print(":o");
             _stateMachine.TransitionTo(DinoState.IntroAnimation);
         }
     }
