@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
 [ext_resource path="res://Treadmill.cs" type="Script" id=2]
@@ -18,7 +18,7 @@
 [sub_resource type="Animation" id=13]
 resource_name = "Intro animation"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Right edge:polygon")
+tracks/0/path = NodePath("Curtain:polygon")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -56,7 +56,7 @@ tracks/2/keys = {
 } ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Right edge:position")
+tracks/3/path = NodePath("Curtain:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -127,7 +127,7 @@ tracks/7/keys = {
 [sub_resource type="Animation" id=15]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Right edge:position")
+tracks/0/path = NodePath("Curtain:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -149,9 +149,6 @@ extents = Vector2( 1200, 8.5 )
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 49.75, 299.75 )
-
-[sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 417, 299.75 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 24, 50 )
@@ -504,19 +501,9 @@ position = Vector2( 50.25, 300.25 )
 shape = SubResource( 9 )
 
 [node name="Right edge" type="Polygon2D" parent="."]
-position = Vector2( 923, 0 )
+position = Vector2( 924, 0 )
 color = Color( 0.968627, 0.968627, 0.968627, 1 )
-polygon = PoolVector2Array( -734, 0, 100, 0, 100, 600, -734, 600 )
-
-[node name="Area2D" type="Area2D" parent="Right edge"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right edge/Area2D"]
-position = Vector2( -316, 298 )
-shape = SubResource( 14 )
-disabled = true
-__meta__ = {
-"_editor_description_": "This doesn't actually do anything; it's only here to make the right edge object visible in the editor."
-}
+polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 
 [node name="Dino" type="KinematicBody2D" parent="."]
 position = Vector2( 144, 220 )
@@ -644,6 +631,11 @@ anims/Blink = SubResource( 20 )
 [node name="Blink timer" type="Timer" parent="UI/HBoxContainer/Current score"]
 
 [node name="Pterodactyl timer" type="Timer" parent="UI/HBoxContainer/Current score"]
+
+[node name="Curtain" type="Polygon2D" parent="."]
+position = Vector2( 923, 0 )
+color = Color( 0.968627, 0.968627, 0.968627, 1 )
+polygon = PoolVector2Array( -734, 0, 100, 0, 100, 600, -734, 600 )
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
