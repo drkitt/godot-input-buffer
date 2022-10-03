@@ -65,7 +65,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 923, 0 ), Vector2( 1660, 4 ) ]
+"values": [ Vector2( 923, 0 ), Vector2( 1750, 0 ) ]
 }
 tracks/4/type = "method"
 tracks/4/path = NodePath("Cloud 1")
@@ -409,8 +409,6 @@ _groundPath1 = NodePath("Ground 1")
 _groundPath2 = NodePath("Ground 2")
 
 [node name="Ground 1" type="Sprite" parent="Treadmill"]
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 100, 251 )
 texture = SubResource( 3 )
 centered = false
@@ -489,7 +487,6 @@ _respawnPointPath = NodePath("../Cloud respawn position")
 position = Vector2( 1072, 20 )
 
 [node name="Left edge" type="Polygon2D" parent="."]
-color = Color( 0.968627, 0.968627, 0.968627, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 
 [node name="Area2D" type="Area2D" parent="Left edge"]
@@ -502,7 +499,6 @@ shape = SubResource( 9 )
 
 [node name="Right edge" type="Polygon2D" parent="."]
 position = Vector2( 924, 0 )
-color = Color( 0.968627, 0.968627, 0.968627, 1 )
 polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 
 [node name="Dino" type="KinematicBody2D" parent="."]
@@ -634,7 +630,6 @@ anims/Blink = SubResource( 20 )
 
 [node name="Curtain" type="Polygon2D" parent="."]
 position = Vector2( 923, 0 )
-color = Color( 0.968627, 0.968627, 0.968627, 1 )
 polygon = PoolVector2Array( -734, 0, 100, 0, 100, 600, -734, 600 )
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
