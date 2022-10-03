@@ -92,14 +92,6 @@ public class Dino : KinematicBody2D
         _stateMachine.Update(delta);
     }
 
-    public override void _Input(InputEvent inputEvent)
-    {
-        if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
-        {
-            GD.Print(OS.GetScancodeString(keyEvent.PhysicalScancode));
-        }
-    }
-
     // Signal callbacks.
     private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
@@ -125,7 +117,6 @@ public class Dino : KinematicBody2D
     {
         if (Input.IsActionJustPressed(JUMP_ACTION))
         {
-            GD.Print(":o");
             _stateMachine.TransitionTo(DinoState.IntroAnimation);
         }
     }
