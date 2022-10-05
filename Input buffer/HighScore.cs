@@ -19,6 +19,18 @@ public class HighScore : Label
     }
 
     /// <summary>
+    /// Called by the engine to respond to engine-level callbacks.
+    /// </summary>
+    /// <param name="what"> The notification that the engine has sent this node. </param>
+    public override void _Notification(int what)
+    {
+        if (what == MainLoop.NotificationWmQuitRequest)
+        {
+            GD.Print("change da world... my final message... goodbye");
+        }
+    }
+
+    /// <summary>
     /// Called when the game ends.
     /// </summary>
     private void _on_Dino_GotHit()
