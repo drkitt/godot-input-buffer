@@ -26,7 +26,9 @@ public class HighScore : Label
     {
         if (what == MainLoop.NotificationWmQuitRequest)
         {
-            GD.Print("change da world... my final message... goodbye");
+            SaveData save = new SaveData();
+            save.HighScore = _highScore;
+            ResourceSaver.Save("user://dino_game_save.res", save);
         }
     }
 
