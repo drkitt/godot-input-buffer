@@ -1,11 +1,15 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Records the best score the player has gotten.
 /// </summary>
 public class HighScore : Label
 {
+    private static string SAVE_PATH = "user://dino_game_save.json";
+    private static string HIGH_SCORE_KEY = "high_score";
+
     /// <summary> Node keeping track of the score </summary>
     private Score _scoreNode; [Export] private NodePath _scoreNodePath = null;
     private float _highScore = 0;
@@ -16,6 +20,11 @@ public class HighScore : Label
     public override void _Ready()
     {
         _scoreNode = GetNode<Score>(_scoreNodePath);
+        // if (ResourceLoader.Exists(SAVE_PATH))
+        // {
+        //     SaveData save = ResourceLoader.Load<SaveData>(SAVE_PATH, "Resource");
+        //     _highScore = save.HighScore;
+        // }
     }
 
     /// <summary>
@@ -26,9 +35,11 @@ public class HighScore : Label
     {
         if (what == MainLoop.NotificationWmQuitRequest)
         {
-            SaveData save = new SaveData();
-            save.HighScore = _highScore;
-            ResourceSaver.Save("user://dino_game_save.res", save);
+            Dictionary<string, float> saveData = new Dictionary<string, float> { { HIGH_SCORE_KEY, _highScore } };
+            File save = new File();
+            save.Open(SAVE_PATH, File.ModeFlags.Write);
+            save.StoreLine(JSON.Print(saveData));
+            save.Close();
         }
     }
 
