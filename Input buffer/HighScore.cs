@@ -20,11 +20,18 @@ public class HighScore : Label
     public override void _Ready()
     {
         _scoreNode = GetNode<Score>(_scoreNodePath);
-        // if (ResourceLoader.Exists(SAVE_PATH))
-        // {
-        //     SaveData save = ResourceLoader.Load<SaveData>(SAVE_PATH, "Resource");
-        //     _highScore = save.HighScore;
-        // }
+
+        File saveFile = new File();
+        if (saveFile.FileExists(SAVE_PATH))
+        {
+            saveFile.Open(SAVE_PATH, File.ModeFlags.Read);
+            Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>(
+                (Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result
+            );
+            float loadedScore = (float)saveData[HIGH_SCORE_KEY];
+            Update(loadedScore);
+            saveFile.Close();
+        }
     }
 
     /// <summary>
@@ -36,10 +43,10 @@ public class HighScore : Label
         if (what == MainLoop.NotificationWmQuitRequest)
         {
             Dictionary<string, float> saveData = new Dictionary<string, float> { { HIGH_SCORE_KEY, _highScore } };
-            File save = new File();
-            save.Open(SAVE_PATH, File.ModeFlags.Write);
-            save.StoreLine(JSON.Print(saveData));
-            save.Close();
+            File saveFile = new File();
+            saveFile.Open(SAVE_PATH, File.ModeFlags.Write);
+            saveFile.StoreLine(JSON.Print(saveData));
+            saveFile.Close();
         }
     }
 
