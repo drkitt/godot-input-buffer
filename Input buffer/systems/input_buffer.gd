@@ -1,4 +1,8 @@
 extends Node
+# Keeps track of recent inputs in order to make timing windows more flexible.
 
-func _input(event: InputEvent) -> void:
-	print('hello input (GDScript)')
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	print(InputMap.get_actions())
+
