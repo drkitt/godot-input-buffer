@@ -59,4 +59,8 @@ public class Treadmill : Node2D
     /// Starts the treadmill? This method's inner workings are a mystery.
     /// </summary>
     private void Start() => _moving = true;
+    /// <summary>
+    /// ??????????
+    /// </summary>
+    private void _on_Dino_GotHit() => _moving = false;
 }

@@ -634,6 +634,10 @@ polygon = PoolVector2Array( -734, 0, 100, 0, 100, 600, -734, 600 )
 
 [connection signal="area_exited" from="Treadmill/Ground 1/Area2D" to="Treadmill/Ground 1" method="_on_Area2D_area_exited"]
 [connection signal="area_exited" from="Treadmill/Ground 2/Area2D" to="Treadmill/Ground 2" method="_on_Area2D_area_exited"]
+[connection signal="GotHit" from="Dino" to="Treadmill" method="_on_Dino_GotHit"]
+[connection signal="GotHit" from="Dino" to="Cloud 1" method="_on_Dino_GotHit"]
+[connection signal="GotHit" from="Dino" to="Cloud 2" method="_on_Dino_GotHit"]
+[connection signal="GotHit" from="Dino" to="Cloud 3" method="_on_Dino_GotHit"]
 [connection signal="GotHit" from="Dino" to="UI/Game over screen" method="_on_Dino_GotHit"]
 [connection signal="GotHit" from="Dino" to="UI/HBoxContainer/High score" method="_on_Dino_GotHit"]
 [connection signal="GotHit" from="Dino" to="UI/HBoxContainer/Current score" method="_on_Dino_GotHit"]

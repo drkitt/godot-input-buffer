@@ -91,6 +91,8 @@ public class Score : Label
             Text = _score.ToString(SCORE_FORMAT);
             Modulate = new Color(0xffffffff);
         }
+        _moving = false;
+        _updating = false;
     }
 
     /// <summary>

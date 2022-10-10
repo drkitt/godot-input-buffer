@@ -105,7 +105,6 @@ public class Dino : KinematicBody2D
     {
         EmitSignal(nameof(GotHit), new object[0]);
         _stateMachine.TransitionTo(DinoState.Dead);
-        GetTree().Paused = true;
     }
 
     // Idle state callbacks.
