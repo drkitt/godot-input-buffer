@@ -551,7 +551,6 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="Game over screen" type="Control" parent="UI"]
-pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
