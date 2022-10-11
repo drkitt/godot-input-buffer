@@ -41,6 +41,10 @@ public class Cloud : Node2D
     /// One of the methods of all time.
     /// </summary>
     public void Start() => _moving = true;
+    /// <summary>
+    /// :)
+    /// </summary>
+    public void _on_Dino_GotHit() => _moving = false;
 
     /// <summary>
     /// Teleports the cloud to the right edge of the screen when it exits the screen.
