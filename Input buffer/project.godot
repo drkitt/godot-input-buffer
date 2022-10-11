@@ -19,6 +19,10 @@ config/icon="res://cooler_icon.png"
 InputBuffer="*res://systems/input_buffer.gd"
 PauseControl="*res://systems/PauseControl.cs"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [display]
 
 window/dpi/allow_hidpi=true
