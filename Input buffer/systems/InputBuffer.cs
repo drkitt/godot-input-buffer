@@ -38,6 +38,8 @@ public class InputBuffer : Node
         also make this dictionary updatable. I'm keeping it non-updatable for now by the YAGNI principle, but if/when 
         you need it, try imitating Python's defaultdict to let every possible action start with timestamp 0.
         */
+
+        GD.Print(InputMap.GetActionList("ui_accept"));
     }
 
     /// <summary>
@@ -46,18 +48,6 @@ public class InputBuffer : Node
     /// <param name="delta"> The elapsed time since the previous frame. </param>
     public override void _Process(float delta)
     {
-/* The current design is to poll every action in the input map and update each timestamp every tick.
-This is really unsatisfying, as I wanted to respond to each input event as it comes and only update the relevant timestamp.
-If the engine has a way to find out what action an input event corresponds to, that'd be easy, but it looks like it only supports
-finding out whether an input event corresponds to a specific action. 
-I also tried keeping a map of timestamps and keyboard keys (which I could later generalize to other inputs), which I'd then 
-use to make polling methods that manually check all the inputs associated with a given action... But it isn't possible to 
-find the inputs associated with an action either!
-So basically, for next time: Take another dig through the documentation and try to figure out what action is associated with
-an input, but don't spend too long on it. After half an hour or so, suck it up and loop through the actions :)
-
-btw I guess there could be multiple actions to an input. Keep that in mind when you're searching!
-
         foreach (string actionName in InputMap.GetActions())
         {
             if (Input.IsActionJustPressed(actionName))
@@ -67,5 +57,40 @@ btw I guess there could be multiple actions to an input. Keep that in mind when 
                 _timestamps[actionName] = Time.GetTicksMsec();
             }
         }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+
+        // This is a proof of concept for detecting whether an input is of a specific key or button.
+        // By using InputMap.GetActionList, it should be possible to get the inputs corresponding to an action and check whether any of those keys/buttons were pressed!
+        if (@event is InputEventKey)
+        {
+            InputEventKey eventKey = @event as InputEventKey;
+            GD.Print(eventKey.Scancode);
+            foreach (InputEvent input in InputMap.GetActionList("ui_accept"))
+            {
+                InputEventKey inputKey = input as InputEventKey;
+                if (inputKey != null)
+                {
+                    GD.Print(eventKey.Scancode == inputKey.Scancode);
+                }
+            }
+        }
+        else if (@event is InputEventJoypadButton)
+        {
+            InputEventJoypadButton eventButton = @event as InputEventJoypadButton;
+            GD.Print(eventButton.ButtonIndex);
+            foreach (InputEvent input in InputMap.GetActionList("ui_accept"))
+            {
+                InputEventJoypadButton inputButton = input as InputEventJoypadButton;
+                if (inputButton != null)
+                {
+                    GD.Print(eventButton.ButtonIndex == inputButton.ButtonIndex);
+                }
+            }
+        }
+        GD.Print();
     }
 }
