@@ -87,6 +87,8 @@ public class InputBuffer : Node
                         // Yeehaw! If JustPressed is False but the dino still jumps, that's the input buffer at work.
                         GD.Print(String.Format("Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}", _keyboardTimestamps[scancode], Time.GetTicksMsec(), Time.GetTicksMsec() - _keyboardTimestamps[scancode], Input.IsActionJustPressed(action)));
 
+                        // Prevent this method from returning true repeatedly and registering duplicate actions.
+                        InvalidateAction(action);
                         return true;
                     }
                 }
@@ -96,5 +98,30 @@ public class InputBuffer : Node
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Records unreasonable timestamps for all the inputs in an action. Called when IsActionPressBuffered returns true,
+    /// as otherwise it would continue returning true every frame for the rest of the buffer window.
+    /// </summary>
+    /// <param name="action"> The action whose input to invalidate. </param>
+    private static void InvalidateAction(string action)
+    {
+        foreach (InputEvent @event in InputMap.GetActionList(action))
+        {
+            if (@event is InputEventKey)
+            {
+                InputEventKey eventKey = @event as InputEventKey;
+                uint scancode = eventKey.Scancode;
+                if (_keyboardTimestamps.ContainsKey(scancode))
+                {
+                    _keyboardTimestamps[scancode] = 0;
+                }
+            }
+            else if (@event is InputEventJoypadButton)
+            {
+
+            }
+        }
     }
 }
