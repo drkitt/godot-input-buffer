@@ -11,14 +11,13 @@ using System.Collections.Generic;
 public class InputBuffer : Node
 {
     /// <summary>
-    /// How many seconds ahead of time the player can make an input and have it still be recognized.
-    /// I chose the value 0.15 because it imitates the 9-frame buffer window in the Super Smash Bros. Ultimate game.
-    /// (source: https://smashboards.com/threads/ultimate-buffering-system.465269/)
+    /// How many milliseconds ahead of time the player can make an input and have it still be recognized.
+    /// I chose the value 150 because it imitates the 9-frame buffer window in the Super Smash Bros. Ultimate game.
     /// </summary>
-    private static readonly float BUFFER_WINDOW = 0.15f;
+    private static readonly ulong BUFFER_WINDOW = 150;
 
-    /// <summary> Tells when each input action was last pressed. </summary>
-    private static Dictionary<string, ulong> _timestamps;
+    /// <summary> Tells when each keyboard key was last pressed. </summary>
+    private static Dictionary<uint, ulong> _keyboardTimestamps;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -28,69 +27,74 @@ public class InputBuffer : Node
         PauseMode = PauseModeEnum.Process;
 
         // Initialize all dictionary entries.
-        _timestamps = new Dictionary<string, ulong>();
-        foreach (string actionName in InputMap.GetActions())
-        {
-            _timestamps.Add(actionName, 0);
-        }
-        /* With this node being autoloaded, the dictionary won't reflect any changes to the input map.
-        If there's ever any need to change the input map at runtime (e.g. a control customization feature), make sure to
-        also make this dictionary updatable. I'm keeping it non-updatable for now by the YAGNI principle, but if/when 
-        you need it, try imitating Python's defaultdict to let every possible action start with timestamp 0.
-        */
-
-        GD.Print(InputMap.GetActionList("ui_accept"));
+        _keyboardTimestamps = new Dictionary<uint, ulong>();
     }
 
     /// <summary>
-    /// Called every frame.
+    /// Called whenever the player makes an input.
     /// </summary>
-    /// <param name="delta"> The elapsed time since the previous frame. </param>
-    public override void _Process(float delta)
-    {
-        foreach (string actionName in InputMap.GetActions())
-        {
-            if (Input.IsActionJustPressed(actionName))
-            {
-                // This value will wrap after roughly 500 million years. TODO: Implement a memory leak so the game crashes 
-                // before that happens.
-                _timestamps[actionName] = Time.GetTicksMsec();
-            }
-        }
-    }
-
+    /// <param name="@event"> Object containing information about the input. </param>
     public override void _Input(InputEvent @event)
     {
-        base._Input(@event);
-
-        // This is a proof of concept for detecting whether an input is of a specific key or button.
-        // By using InputMap.GetActionList, it should be possible to get the inputs corresponding to an action and check whether any of those keys/buttons were pressed!
+        // Get a numerical representation of the input and store it in the timestamp dictionary.
         if (@event is InputEventKey)
         {
             InputEventKey eventKey = @event as InputEventKey;
-            GD.Print(eventKey.Scancode);
-            foreach (InputEvent input in InputMap.GetActionList("ui_accept"))
+            if (!eventKey.Pressed || eventKey.IsEcho()) return;
+
+            uint scancode = eventKey.Scancode;
+
+            if (_keyboardTimestamps.ContainsKey(scancode))
             {
-                InputEventKey inputKey = input as InputEventKey;
-                if (inputKey != null)
-                {
-                    GD.Print(eventKey.Scancode == inputKey.Scancode);
-                }
+                // The Time.GetTicksMsec() value will wrap after roughly 500 million years. TODO: Implement a very slow 
+                // memory leak so the game crashes before that happens.
+                _keyboardTimestamps[scancode] = Time.GetTicksMsec();
+            }
+            else
+            {
+                _keyboardTimestamps.Add(scancode, Time.GetTicksMsec());
             }
         }
         else if (@event is InputEventJoypadButton)
         {
-            InputEventJoypadButton eventButton = @event as InputEventJoypadButton;
-            GD.Print(eventButton.ButtonIndex);
-            foreach (InputEvent input in InputMap.GetActionList("ui_accept"))
+        }
+    }
+
+    /// <summary>
+    /// Returns whether any of the keyboard keys or joypad buttons in the given action were pressed within the buffer 
+    /// window.
+    /// </summary>
+    /// <param name="action"> The action to check for in the buffer. </param>
+    /// <returns>
+    /// True if any of the action's associated keys/buttons were pressed within the buffer window, false otherwise. 
+    /// </returns>
+    public static bool IsActionPressBuffered(string action)
+    {
+        /*
+        Get the inputs associated with the action. If any one of them was pressed in the last BUFFER_WINDOW 
+        milliseconds, the action is buffered.
+        */
+        foreach (InputEvent @event in InputMap.GetActionList(action))
+        {
+            if (@event is InputEventKey)
             {
-                InputEventJoypadButton inputButton = input as InputEventJoypadButton;
-                if (inputButton != null)
+                InputEventKey eventKey = @event as InputEventKey;
+                uint scancode = eventKey.Scancode;
+                if (_keyboardTimestamps.ContainsKey(scancode))
                 {
-                    GD.Print(eventButton.ButtonIndex == inputButton.ButtonIndex);
+                    if (Time.GetTicksMsec() - _keyboardTimestamps[scancode] <= BUFFER_WINDOW)
+                    {
+                        // Yeehaw! If JustPressed is False but the dino still jumps, that's the input buffer at work.
+                        GD.Print(String.Format("Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}", _keyboardTimestamps[scancode], Time.GetTicksMsec(), Time.GetTicksMsec() - _keyboardTimestamps[scancode], Input.IsActionJustPressed(action)));
+
+                        return true;
+                    }
                 }
             }
+            else if (@event is InputEventJoypadButton)
+            {
+            }
         }
-        GD.Print();
+        return false;
     }
 }

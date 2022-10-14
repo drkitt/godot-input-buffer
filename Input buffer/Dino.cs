@@ -115,7 +115,7 @@ public class Dino : KinematicBody2D
     }
     private void IdlePhysicsProcess(float delta)
     {
-        if (Input.IsActionJustPressed(JUMP_ACTION))
+        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
         {
             _stateMachine.TransitionTo(DinoState.IntroAnimation);
         }
@@ -149,7 +149,7 @@ public class Dino : KinematicBody2D
     }
     private void GroundedPhysicsProcess(float delta)
     {
-        if (Input.IsActionJustPressed(JUMP_ACTION))
+        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
         {
             _stateMachine.TransitionTo(DinoState.Jumping);
         }
