@@ -18,6 +18,8 @@ public class InputBuffer : Node
 
     /// <summary> Tells when each keyboard key was last pressed. </summary>
     private static Dictionary<uint, ulong> _keyboardTimestamps;
+    /// <summary> Tells when each joypad (controller) button was last pressed. </summary>
+    private static Dictionary<int, ulong> _joypadTimestamps;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -28,6 +30,7 @@ public class InputBuffer : Node
 
         // Initialize all dictionary entries.
         _keyboardTimestamps = new Dictionary<uint, ulong>();
+        _joypadTimestamps = new Dictionary<int, ulong>();
     }
 
     /// <summary>
@@ -57,6 +60,19 @@ public class InputBuffer : Node
         }
         else if (@event is InputEventJoypadButton)
         {
+            InputEventJoypadButton eventJoypadButton = @event as InputEventJoypadButton;
+            if (!eventJoypadButton.Pressed || eventJoypadButton.IsEcho()) return;
+
+            int buttonIndex = eventJoypadButton.ButtonIndex;
+
+            if (_joypadTimestamps.ContainsKey(buttonIndex))
+            {
+                _joypadTimestamps[buttonIndex] = Time.GetTicksMsec();
+            }
+            else
+            {
+                _joypadTimestamps.Add(buttonIndex, Time.GetTicksMsec());
+            }
         }
     }
 
@@ -84,19 +100,36 @@ public class InputBuffer : Node
                 {
                     if (Time.GetTicksMsec() - _keyboardTimestamps[scancode] <= BUFFER_WINDOW)
                     {
-                        // Yeehaw! If JustPressed is False but the dino still jumps, that's the input buffer at work.
-                        GD.Print(String.Format("Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}", _keyboardTimestamps[scancode], Time.GetTicksMsec(), Time.GetTicksMsec() - _keyboardTimestamps[scancode], Input.IsActionJustPressed(action)));
-
                         // Prevent this method from returning true repeatedly and registering duplicate actions.
                         InvalidateAction(action);
+
                         return true;
                     }
                 }
             }
             else if (@event is InputEventJoypadButton)
             {
+                InputEventJoypadButton eventJoypadButton = @event as InputEventJoypadButton;
+                int buttonIndex = eventJoypadButton.ButtonIndex;
+                if (_joypadTimestamps.ContainsKey(buttonIndex))
+                {
+                    if (Time.GetTicksMsec() - _joypadTimestamps[buttonIndex] <= BUFFER_WINDOW)
+                    {
+                        // Yeehaw! If JustPressed is False but the dino still jumps, that's the input buffer at work.
+                        GD.Print(String.Format("Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}", _joypadTimestamps[buttonIndex], Time.GetTicksMsec(), Time.GetTicksMsec() - _joypadTimestamps[buttonIndex], Input.IsActionJustPressed(action)));
+
+                        InvalidateAction(action);
+                        return true;
+                    }
+                }
             }
         }
+        /* 
+        If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to 
+        generalize the repetitive keyboard/joypad code into something that works for any input method. Until then, by 
+        the YAGNI principle, the repetitive stuff stays >:)
+        */
+
         return false;
     }
 
@@ -120,7 +153,12 @@ public class InputBuffer : Node
             }
             else if (@event is InputEventJoypadButton)
             {
-
+                InputEventJoypadButton eventJoypadButton = @event as InputEventJoypadButton;
+                int buttonIndex = eventJoypadButton.ButtonIndex;
+                if (_joypadTimestamps.ContainsKey(buttonIndex))
+                {
+                    _joypadTimestamps[buttonIndex] = 0;
+                }
             }
         }
     }
