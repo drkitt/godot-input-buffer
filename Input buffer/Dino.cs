@@ -128,6 +128,7 @@ public class Dino : KinematicBody2D
     {
         _velocity = _initialJumpSpeed * Vector2.Up;
         _gravity = _regularGravity;
+        _audio.Play();
     }
     private void IntroAnimationPhysicsProcess(float delta)
     {

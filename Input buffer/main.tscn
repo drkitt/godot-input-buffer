@@ -508,6 +508,7 @@ script = ExtResource( 3 )
 _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
 _duckingHitboxPath = NodePath("Ducking hitbox/CollisionShape2D")
+_audioPath = NodePath("AudioStreamPlayer")
 _regularGravity = 3600.0
 _shortHopGravity = 7200.0
 _initialJumpSpeed = 1100.0
