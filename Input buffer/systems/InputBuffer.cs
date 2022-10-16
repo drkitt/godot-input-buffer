@@ -115,9 +115,6 @@ public class InputBuffer : Node
                 {
                     if (Time.GetTicksMsec() - _joypadTimestamps[buttonIndex] <= BUFFER_WINDOW)
                     {
-                        // Yeehaw! If JustPressed is False but the dino still jumps, that's the input buffer at work.
-                        GD.Print(String.Format("Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}", _joypadTimestamps[buttonIndex], Time.GetTicksMsec(), Time.GetTicksMsec() - _joypadTimestamps[buttonIndex], Input.IsActionJustPressed(action)));
-
                         InvalidateAction(action);
                         return true;
                     }

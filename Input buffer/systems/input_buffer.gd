@@ -51,9 +51,6 @@ func is_action_press_buffered(action: String) -> bool:
 			var button_index: int = event.button_index
 			if joypad_timestamps.has(button_index):
 				if Time.get_ticks_msec() - joypad_timestamps[button_index] <= BUFFER_WINDOW:
-					# Yeehaw!
-					print(":) Buffer, Current, Difference, JustPressed: {0}, {1}, {2}, {3}".format([joypad_timestamps[button_index], Time.get_ticks_msec(), Time.get_ticks_msec() - joypad_timestamps[button_index], Input.is_action_just_pressed(action)]))
-					
 					_invalidate_action(action)
 					return true
 	# If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to generalize
