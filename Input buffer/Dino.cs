@@ -33,6 +33,7 @@ public class Dino : KinematicBody2D
     private AnimationPlayer _animator; [Export] private NodePath _animation_player_path = null;
     private CollisionShape2D _regularHitbox; [Export] private NodePath _regularHitboxPath = null;
     private CollisionShape2D _duckingHitbox; [Export] private NodePath _duckingHitboxPath = null;
+    private AudioStreamPlayer _audio; [Export] private NodePath _audioPath = null;
     private Vector2 _velocity;
     private float _gravity;
 
@@ -62,6 +63,7 @@ public class Dino : KinematicBody2D
         _animator = GetNode<AnimationPlayer>(_animation_player_path);
         _regularHitbox = GetNode<CollisionShape2D>(_regularHitboxPath);
         _duckingHitbox = GetNode<CollisionShape2D>(_duckingHitboxPath);
+        _audio = GetNode<AudioStreamPlayer>(_audioPath);
 
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
@@ -125,6 +127,7 @@ public class Dino : KinematicBody2D
     {
         _velocity = _initialJumpSpeed * Vector2.Up;
         _gravity = _regularGravity;
+        _audio.Play();
     }
     private void IntroAnimationPhysicsProcess(float delta)
     {
@@ -164,6 +167,7 @@ public class Dino : KinematicBody2D
         _velocity = _initialJumpSpeed * Vector2.Up;
         _gravity = _regularGravity;
         _animator.Play("Idle + Jump");
+        _audio.Play();
     }
     private void JumpingPhysicsProcess(float delta)
     {

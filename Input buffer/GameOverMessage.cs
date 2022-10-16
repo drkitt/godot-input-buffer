@@ -7,6 +7,7 @@ using System;
 public class GameOverMessage : Control
 {
     private TextureButton _retryButton; [Export] private NodePath _retryButtonPath = null;
+    private AudioStreamPlayer _audio; [Export] private NodePath _audioPath = null;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -14,6 +15,7 @@ public class GameOverMessage : Control
     public override void _Ready()
     {
         _retryButton = GetNode<TextureButton>(_retryButtonPath);
+        _audio = GetNode<AudioStreamPlayer>(_audioPath);
     }
 
     /// <summary>
@@ -23,6 +25,7 @@ public class GameOverMessage : Control
     {
         Visible = true;
         _retryButton.CallDeferred("grab_focus");
+        _audio.Play();
     }
 
     /// <summary>
