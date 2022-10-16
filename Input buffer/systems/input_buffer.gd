@@ -6,3 +6,6 @@ extends Node
 func _ready() -> void:
 	print(InputMap.get_actions())
 
+func is_action_press_buffered(action: String) -> bool:
+	print("yeah prolly")
+	return false
