@@ -115,8 +115,7 @@ public class Dino : KinematicBody2D
     }
     private void IdlePhysicsProcess(float delta)
     {
-        // if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
-        if ((bool)GetNode("/root/InputBuffer").Call("is_action_press_buffered", new object[] { JUMP_ACTION }))
+        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
         {
             _stateMachine.TransitionTo(DinoState.IntroAnimation);
         }
@@ -150,8 +149,7 @@ public class Dino : KinematicBody2D
     }
     private void GroundedPhysicsProcess(float delta)
     {
-        // if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
-        if ((bool)GetNode("/root/InputBuffer").Call("is_action_press_buffered", new object[] { JUMP_ACTION })) // This is why I don't recommend using GDScript and C# in the same project :P
+        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
         {
             _stateMachine.TransitionTo(DinoState.Jumping);
         }

@@ -17,7 +17,7 @@ config/icon="res://cooler_icon.png"
 [autoload]
 
 PauseControl="*res://systems/PauseControl.cs"
-InputBuffer="*res://systems/input_buffer.gd"
+InputBuffer="*res://systems/InputBuffer.cs"
 
 [display]
 
