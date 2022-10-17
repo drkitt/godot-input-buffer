@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Keeps track of recent inputs in order to make timing windows more flexible.
-/// Intended use: Add this file to your project as an Autoload script and have other objects call the class' static 
+/// Intended use: Add this file to your project as an AutoLoad script and have other objects call the class' static 
 /// methods.
 /// (more on AutoLoad: https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html)
 /// </summary>
