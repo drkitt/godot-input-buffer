@@ -141,6 +141,14 @@ public class Dino : KinematicBody2D
     }
     private void IntroAnimationExit()
     {
+        /*
+        Move the dino forward a bit as part of the intro animation. It's defined here instead of in the capital-A 
+        Animation in order to only set the position's x component and make sure the dino is still able to jump.
+        */
+        SceneTreeTween introAnimationDrift = CreateTween();
+        introAnimationDrift.TweenProperty(this, "position:x", 154f, 0.7f);
+        introAnimationDrift.Play();
+
         EmitSignal(nameof(IntroJumpFinished), new object[0]);
     }
 

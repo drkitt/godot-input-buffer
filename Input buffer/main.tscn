@@ -37,7 +37,7 @@ tracks/1/path = NodePath("Dino:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
