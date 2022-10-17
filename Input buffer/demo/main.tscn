@@ -1,22 +1,22 @@
 [gd_scene load_steps=37 format=2]
 
-[ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
-[ext_resource path="res://Treadmill.cs" type="Script" id=2]
-[ext_resource path="res://Dino.cs" type="Script" id=3]
-[ext_resource path="res://Ground.cs" type="Script" id=4]
-[ext_resource path="res://obstacles/cactus.tscn" type="PackedScene" id=5]
-[ext_resource path="res://obstacles/cactus_clump.tscn" type="PackedScene" id=6]
-[ext_resource path="res://obstacles/pterodactyl.tscn" type="PackedScene" id=7]
-[ext_resource path="res://DinoGameAnimator.cs" type="Script" id=8]
-[ext_resource path="res://obstacles/cactus_baby.tscn" type="PackedScene" id=9]
-[ext_resource path="res://PressStart2P-Regular.ttf" type="DynamicFontData" id=10]
-[ext_resource path="res://GameOverMessage.cs" type="Script" id=11]
-[ext_resource path="res://Score.cs" type="Script" id=12]
-[ext_resource path="res://cloud.tscn" type="PackedScene" id=13]
-[ext_resource path="res://HighScore.cs" type="Script" id=14]
-[ext_resource path="res://sfx/jump.wav" type="AudioStream" id=15]
-[ext_resource path="res://sfx/point.wav" type="AudioStream" id=16]
-[ext_resource path="res://sfx/die.wav" type="AudioStream" id=17]
+[ext_resource path="res://demo/obstacles/cactus_clump.tscn" type="PackedScene" id=1]
+[ext_resource path="res://demo/cloud.tscn" type="PackedScene" id=2]
+[ext_resource path="res://demo/obstacles/cactus.tscn" type="PackedScene" id=3]
+[ext_resource path="res://demo/obstacles/pterodactyl.tscn" type="PackedScene" id=4]
+[ext_resource path="res://demo/obstacles/cactus_baby.tscn" type="PackedScene" id=5]
+[ext_resource path="res://demo/Treadmill.cs" type="Script" id=6]
+[ext_resource path="res://demo/PressStart2P-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://demo/sfx/die.wav" type="AudioStream" id=8]
+[ext_resource path="res://demo/sfx/jump.wav" type="AudioStream" id=9]
+[ext_resource path="res://demo/offline-sprite-2x.png" type="Texture" id=10]
+[ext_resource path="res://demo/sfx/point.wav" type="AudioStream" id=11]
+[ext_resource path="res://demo/ui/Score.cs" type="Script" id=12]
+[ext_resource path="res://demo/ui/HighScore.cs" type="Script" id=13]
+[ext_resource path="res://demo/DinoGameAnimator.cs" type="Script" id=14]
+[ext_resource path="res://demo/Dino.cs" type="Script" id=15]
+[ext_resource path="res://demo/ui/GameOverMessage.cs" type="Script" id=16]
+[ext_resource path="res://demo/Ground.cs" type="Script" id=17]
 
 [sub_resource type="Animation" id=13]
 resource_name = "Intro animation"
@@ -144,7 +144,7 @@ tracks/0/keys = {
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 1.54929, 101.546, 2400.26, 38.3509 )
 
 [sub_resource type="RectangleShape2D" id=8]
@@ -218,7 +218,7 @@ tracks/2/keys = {
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 1337.9, 0, 87.8, 99.248 )
 
 [sub_resource type="Animation" id=4]
@@ -302,12 +302,12 @@ tracks/1/keys = {
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 1514.3, 0, 86.632, 100 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 1602.4, 0, 86.632, 100 )
 
 [sub_resource type="Animation" id=5]
@@ -341,17 +341,17 @@ tracks/1/keys = {
 
 [sub_resource type="AtlasTexture" id=16]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 952.344, 24.2983, 386.656, 33.7017 )
 
 [sub_resource type="AtlasTexture" id=19]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 1.5369, 1.25722, 73.0468, 65.6811 )
 
 [sub_resource type="DynamicFont" id=17]
 size = 24
-font_data = ExtResource( 10 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=20]
 resource_name = "Blink"
@@ -403,7 +403,7 @@ tracks/3/keys = {
 "clips": [ {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 16 )
+"stream": ExtResource( 11 )
 } ],
 "times": PoolRealArray( 0 )
 }
@@ -427,10 +427,10 @@ tracks/4/keys = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Intro animation" = SubResource( 13 )
 anims/RESET = SubResource( 15 )
-script = ExtResource( 8 )
+script = ExtResource( 14 )
 
 [node name="Treadmill" type="Node2D" parent="."]
-script = ExtResource( 2 )
+script = ExtResource( 6 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -443,11 +443,11 @@ _groundPath2 = NodePath("Ground 2")
 position = Vector2( 100, 251 )
 texture = SubResource( 3 )
 centered = false
-script = ExtResource( 4 )
-_cactus = ExtResource( 5 )
-_cactusClump = ExtResource( 6 )
-_cactusBaby = ExtResource( 9 )
-_pterodactyl = ExtResource( 7 )
+script = ExtResource( 17 )
+_cactus = ExtResource( 3 )
+_cactusClump = ExtResource( 1 )
+_cactusBaby = ExtResource( 5 )
+_pterodactyl = ExtResource( 4 )
 _otherGroundPath = NodePath("../Ground 2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Treadmill/Ground 1"]
@@ -474,11 +474,11 @@ shape = SubResource( 8 )
 position = Vector2( 2500, 251 )
 texture = SubResource( 3 )
 centered = false
-script = ExtResource( 4 )
-_cactus = ExtResource( 5 )
-_cactusClump = ExtResource( 6 )
-_cactusBaby = ExtResource( 9 )
-_pterodactyl = ExtResource( 7 )
+script = ExtResource( 17 )
+_cactus = ExtResource( 3 )
+_cactusClump = ExtResource( 1 )
+_cactusBaby = ExtResource( 5 )
+_pterodactyl = ExtResource( 4 )
 _initialObstaclePos = 400
 _otherGroundPath = NodePath("../Ground 1")
 
@@ -502,15 +502,15 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Treadmill/Ground 2/Area2D"]
 shape = SubResource( 8 )
 
-[node name="Cloud 1" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 401, 127 )
 _respawnPointPath = NodePath("../Cloud respawn position")
 
-[node name="Cloud 2" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 783, 71 )
 _respawnPointPath = NodePath("../Cloud respawn position")
 
-[node name="Cloud 3" parent="." instance=ExtResource( 13 )]
+[node name="Cloud 3" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1072, 151 )
 _respawnPointPath = NodePath("../Cloud respawn position")
 
@@ -534,7 +534,7 @@ polygon = PoolVector2Array( 0, 0, 100, 0, 100, 600, 0, 600 )
 
 [node name="Dino" type="KinematicBody2D" parent="."]
 position = Vector2( 144, 220 )
-script = ExtResource( 3 )
+script = ExtResource( 15 )
 _animation_player_path = NodePath("AnimationPlayer")
 _regularHitboxPath = NodePath("Regular hitbox/CollisionShape2D")
 _duckingHitboxPath = NodePath("Ducking hitbox/CollisionShape2D")
@@ -547,7 +547,7 @@ _initialJumpSpeed = 1100.0
 shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Dino"]
-texture = ExtResource( 1 )
+texture = ExtResource( 10 )
 region_enabled = true
 region_rect = Rect2( 1690.2, 0, 87.8, 99.248 )
 
@@ -577,7 +577,7 @@ shape = SubResource( 10 )
 disabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dino"]
-stream = ExtResource( 15 )
+stream = ExtResource( 9 )
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -591,7 +591,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource( 11 )
+script = ExtResource( 16 )
 _retryButtonPath = NodePath("Retry button")
 _audioPath = NodePath("AudioStreamPlayer")
 
@@ -619,7 +619,7 @@ grow_vertical = 2
 texture_normal = SubResource( 19 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UI/Game over screen"]
-stream = ExtResource( 17 )
+stream = ExtResource( 8 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 anchor_left = 1.0
@@ -639,7 +639,7 @@ size_flags_horizontal = 6
 custom_colors/font_color = Color( 0.458824, 0.458824, 0.458824, 1 )
 custom_fonts/font = SubResource( 17 )
 text = "HI 00000"
-script = ExtResource( 14 )
+script = ExtResource( 13 )
 _scoreNodePath = NodePath("../Current score")
 
 [node name="Current score" type="Label" parent="UI/HBoxContainer"]
@@ -667,7 +667,7 @@ anims/Blink = SubResource( 20 )
 [node name="Pterodactyl timer" type="Timer" parent="UI/HBoxContainer/Current score"]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UI/HBoxContainer/Current score"]
-stream = ExtResource( 16 )
+stream = ExtResource( 11 )
 volume_db = -15.67
 
 [node name="Curtain" type="Polygon2D" parent="."]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://offline-sprite-2x.png" type="Texture" id=1]
-[ext_resource path="res://Cloud.cs" type="Script" id=2]
+[ext_resource path="res://demo/offline-sprite-2x.png" type="Texture" id=1]
+[ext_resource path="res://demo/Cloud.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 47, 13.5 )
@@ -12,8 +12,6 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 165.695, 0.860001, 93.9153, 29.9065 )
 script = ExtResource( 2 )
-_speed = 50.0
-_maxYOffset = 150.0
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0

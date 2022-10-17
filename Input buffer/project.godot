@@ -11,13 +11,13 @@ config_version=4
 [application]
 
 config/name="Input buffer"
-run/main_scene="res://main.tscn"
-config/icon="res://cooler_icon.png"
+run/main_scene="res://demo/main.tscn"
+config/icon="res://demo/cooler_icon.png"
 
 [autoload]
 
-PauseControl="*res://systems/PauseControl.cs"
-InputBuffer="*res://systems/InputBuffer.cs"
+PauseControl="*res://demo/systems/PauseControl.cs"
+InputBuffer="*res://InputBuffer.cs"
 
 [display]
 
@@ -59,4 +59,4 @@ quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_clear_color=Color( 1, 1, 1, 1 )
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://demo/default_env.tres"

@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://demo/icon.png" type="Texture" id=1]
+
 
 [node name="Obstacle" type="Sprite"]
 texture = ExtResource( 1 )

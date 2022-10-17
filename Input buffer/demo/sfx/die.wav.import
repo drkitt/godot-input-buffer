@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/point.wav-83d2ab25bc82d2280a5fecf3fa53b287.sample"
+path="res://.import/die.wav-9afca11fbf53c2118f2ff8ce19ea30b4.sample"
 
 [deps]
 
-source_file="res://sfx/point.wav"
-dest_files=[ "res://.import/point.wav-83d2ab25bc82d2280a5fecf3fa53b287.sample" ]
+source_file="res://demo/sfx/die.wav"
+dest_files=[ "res://.import/die.wav-9afca11fbf53c2118f2ff8ce19ea30b4.sample" ]
 
 [params]
 
