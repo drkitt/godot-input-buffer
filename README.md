@@ -2,7 +2,7 @@
 
 ##### More responsive input in Godot
 
-Ever had a game ignore your input because you pressed the button a millisecond too early? This project fixes that problem by implementing an input buffer, which stores inputs for a short window of time so their associated actions can be executed in the next possible frame. It's easy to add it to any project, supports keyboard and controller input, and works with both GDScript and C#. Your players won't know it's there, but they'll feel it.
+Ever had a game ignore your input because you pressed the button a millisecond too early? This project fixes that problem by implementing an input buffer, which stores inputs for a short window of time so their associated actions can be executed in the next possible frame. It's easy to add it to any project, supports keyboard and controller input, and works with both GDScript and C#. Your players won't know it's there, but they'll feel it!
 
 ## Usage
 
@@ -18,4 +18,4 @@ Same process as the GDScript version, except the file is called `InputBuffer.cs`
 
 ## Demo
 
-I made a replica of the Google Chrome dino game to test the input buffer (and practice a few other things, like saving & loading data and working with Godot's UI features). It's included in this repository if you want to try it out. Press the spacebar to jump and press the escape key to toggle the input buffer on and off. You may notice it's easier to quickly jump up and down when the buffer is on.
+I made a replica of the Google Chrome dino game to test the input buffer (and practice a few other things, like saving & loading data and working with Godot's UI features). It's included in this repository if you want to try it out. Press the spacebar to jump and press the escape key to toggle the input buffer on and off. The input buffer's effect is subtle, but you may notice it's easier to rapidly jump up and down when the buffer is on.
