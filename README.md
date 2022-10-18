@@ -18,4 +18,4 @@ Same process as the GDScript version, except the file is called `InputBuffer.cs`
 
 ## Demo
 
-I made a replica of the Google Chrome dino game to test the input buffer (and practice a few other things, like saving & loading data and working with Godot's UI features). It's included in this repository if you want to try it out.
+I made a replica of the Google Chrome dino game to test the input buffer (and practice a few other things, like saving & loading data and working with Godot's UI features). It's included in this repository if you want to try it out. Press the spacebar to jump and press the escape key to toggle the input buffer on and off. You may notice it's easier to quickly jump up and down when the buffer is on.
