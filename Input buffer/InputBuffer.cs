@@ -135,7 +135,7 @@ public class InputBuffer : Node
     /// as otherwise it would continue returning true every frame for the rest of the buffer window.
     /// </summary>
     /// <param name="action"> The action whose input to invalidate. </param>
-    private static void InvalidateAction(string action)
+    public static void InvalidateAction(string action)
     {
         foreach (InputEvent @event in InputMap.GetActionList(action))
         {

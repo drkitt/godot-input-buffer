@@ -104,6 +104,7 @@ public class Dino : KinematicBody2D
     private void _on_Retry_button_pressed()
     {
         Position = new Vector2(Position.x, _initialY);
+        InputBuffer.InvalidateAction(JUMP_ACTION);
         _stateMachine.TransitionTo(DinoState.Grounded);
     }
 
