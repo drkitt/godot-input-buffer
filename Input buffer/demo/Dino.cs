@@ -37,6 +37,7 @@ public class Dino : KinematicBody2D
     private Vector2 _velocity;
     private float _gravity;
     private bool _useBuffer = true;
+    private float _initialY;
 
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at normally. </summary>
     [Export] private float _regularGravity = 2400f;
@@ -65,6 +66,7 @@ public class Dino : KinematicBody2D
         _regularHitbox = GetNode<CollisionShape2D>(_regularHitboxPath);
         _duckingHitbox = GetNode<CollisionShape2D>(_duckingHitboxPath);
         _audio = GetNode<AudioStreamPlayer>(_audioPath);
+        _initialY = Position.y;
 
         _stateMachine = new StateMachine<DinoState>(
             new Dictionary<DinoState, StateSpec>
@@ -98,8 +100,12 @@ public class Dino : KinematicBody2D
     // Signal callbacks.
     private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
-    private void _on_Retry_button_pressed() => _stateMachine.TransitionTo(DinoState.Grounded);
     private void _on_Buffer_control_BufferToggled(bool on) => _useBuffer = on;
+    private void _on_Retry_button_pressed()
+    {
+        Position = new Vector2(Position.x, _initialY);
+        _stateMachine.TransitionTo(DinoState.Grounded);
+    }
 
     /// <summary>
     /// Called when colliding with an obstacle.
