@@ -36,6 +36,7 @@ public class Dino : KinematicBody2D
     private AudioStreamPlayer _audio; [Export] private NodePath _audioPath = null;
     private Vector2 _velocity;
     private float _gravity;
+    private bool _useBuffer = true;
 
     /// <summary> How many pixels per second squared the dino accelerates towards the ground at normally. </summary>
     [Export] private float _regularGravity = 2400f;
@@ -98,6 +99,7 @@ public class Dino : KinematicBody2D
     private void _on_Regular_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Ducking_hitbox_area_entered(Area2D area) => OnObstacleHit();
     private void _on_Retry_button_pressed() => _stateMachine.TransitionTo(DinoState.Grounded);
+    private void _on_Buffer_control_BufferToggled(bool on) => _useBuffer = on;
 
     /// <summary>
     /// Called when colliding with an obstacle.
@@ -116,7 +118,17 @@ public class Dino : KinematicBody2D
     }
     private void IdlePhysicsProcess(float delta)
     {
-        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
+        bool jumping;
+        if (_useBuffer)
+        {
+            jumping = InputBuffer.IsActionPressBuffered(JUMP_ACTION);
+        }
+        else
+        {
+            jumping = Input.IsActionJustPressed(JUMP_ACTION);
+        }
+
+        if (jumping)
         {
             _stateMachine.TransitionTo(DinoState.IntroAnimation);
         }
@@ -159,7 +171,17 @@ public class Dino : KinematicBody2D
     }
     private void GroundedPhysicsProcess(float delta)
     {
-        if (InputBuffer.IsActionPressBuffered(JUMP_ACTION))
+        bool jumping;
+        if (_useBuffer)
+        {
+            jumping = InputBuffer.IsActionPressBuffered(JUMP_ACTION);
+        }
+        else
+        {
+            jumping = Input.IsActionJustPressed(JUMP_ACTION);
+        }
+
+        if (jumping)
         {
             _stateMachine.TransitionTo(DinoState.Jumping);
         }
