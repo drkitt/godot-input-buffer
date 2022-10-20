@@ -42,6 +42,7 @@ public class BufferControl : Label
             {
                 Text = "Input buffer OFF";
             }
+            _animator.Seek(0);
             _animator.Play("Reveal");
 
             EmitSignal(nameof(BufferToggled), new object[] { _bufferOn });
