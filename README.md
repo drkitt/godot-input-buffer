@@ -2,6 +2,8 @@
 
 ##### More responsive input in Godot
 
+For Godot 3.x. Check out [this fork](https://github.com/johnnyneverwalked/godot-input-buffer/tree/godot-4) for Godot 4.0 and joystick support!
+
 Ever had a game ignore your input because you pressed the button a millisecond too early? This project fixes that problem by implementing an input buffer, which stores inputs for a short window of time so their associated actions can be executed in the next possible frame. It's easy to add it to any project, supports keyboard and controller input, and works with both GDScript and C#. Your players won't know it's there, but they'll feel it!
 
 ## Usage
