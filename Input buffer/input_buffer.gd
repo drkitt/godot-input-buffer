@@ -6,9 +6,12 @@ extends Node
 # How many milliseconds ahead of time the player can make an input and have it still be recognized.
 # I chose the value 150 because it imitates the 9-frame buffer window in the Super Smash Bros. Ultimate game.
 const BUFFER_WINDOW: int = 150
+# The godot default deadzone is 0.2 so I chose to have it the same
+const JOY_DEADZONE: float = 0.2
 
 var keyboard_timestamps: Dictionary
 var joypad_timestamps: Dictionary
+var joymotion_timestamps: Dictionary
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +20,7 @@ func _ready() -> void:
 	# Initialize all dictionary entris.
 	keyboard_timestamps = {}
 	joypad_timestamps = {}
+	joymotion_timestamps = {}
 	
 
 # Called whenever the player makes an input.
@@ -33,6 +37,12 @@ func _input(event: InputEvent) -> void:
 			
 		var button_index: int = event.button_index
 		joypad_timestamps[button_index] = Time.get_ticks_msec()
+	elif event is InputEventJoypadMotion:
+		if abs(event.axis_value) < JOY_DEADZONE:
+			return
+			
+		var axis_code: String = str(event.axis) + "_" + str(sign(event.axis_value))
+		joymotion_timestamps[axis_code] = Time.get_ticks_msec()
 	
 # Returns whether any of the keyboard keys or joypad buttons in the given action were pressed within the buffer window.
 func is_action_press_buffered(action: String) -> bool:
@@ -53,9 +63,15 @@ func is_action_press_buffered(action: String) -> bool:
 				if Time.get_ticks_msec() - joypad_timestamps[button_index] <= BUFFER_WINDOW:
 					_invalidate_action(action)
 					return true
-	# If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to generalize
-	# the repetitive keyboard/joypad code into something that works for any input method. Until then, by the YAGNI 
-	# principle, the repetitive stuff stays >:)
+		elif event is InputEventJoypadMotion:
+			if abs(event.axis_value) < JOY_DEADZONE:
+				return false
+			var axis_code: String = str(event.axis) + "_" + str(sign(event.axis_value))
+			if joymotion_timestamps.has(axis_code):
+				var delta = Time.get_ticks_msec() - joymotion_timestamps[axis_code]
+				if delta <= BUFFER_WINDOW:
+					_invalidate_action(action)
+					return true
 	
 	return false
 
@@ -72,3 +88,7 @@ func _invalidate_action(action: String) -> void:
 			var button_index: int = event.button_index
 			if joypad_timestamps.has(button_index):
 				joypad_timestamps[button_index] = 0
+		elif event is InputEventJoypadMotion:
+			var axis_code: String = str(event.axis) + "_" + str(sign(event.axis_value))
+			if joymotion_timestamps.has(axis_code):
+				joymotion_timestamps[axis_code] = 0
