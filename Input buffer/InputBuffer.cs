@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Keeps track of recent inputs in order to make timing windows more flexible.
-/// Intended use: Add this file to your project as an AutoLoad script and have other objects call the class' static 
+/// Intended use: Add this file to your project as an AutoLoad script and have other objects call the class' static
 /// methods.
 /// (more on AutoLoad: https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html)
 /// </summary>
@@ -15,11 +15,16 @@ public class InputBuffer : Node
     /// I chose the value 150 because it imitates the 9-frame buffer window in the Super Smash Bros. Ultimate game.
     /// </summary>
     private static readonly ulong BUFFER_WINDOW = 150;
+    /// <summary>
+    /// The godot default deadzone is 0.2 so I chose to have it the same
+    /// </summary>
+    private static readonly float JOY_DEADZONE = 0.2f;
 
     /// <summary> Tells when each keyboard key was last pressed. </summary>
     private static Dictionary<uint, ulong> _keyboardTimestamps;
     /// <summary> Tells when each joypad (controller) button was last pressed. </summary>
     private static Dictionary<int, ulong> _joypadTimestamps;
+    private static Dictionary<string, ulong> _joymotionTimestamps;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -31,6 +36,7 @@ public class InputBuffer : Node
         // Initialize all dictionary entries.
         _keyboardTimestamps = new Dictionary<uint, ulong>();
         _joypadTimestamps = new Dictionary<int, ulong>();
+        _joymotionTimestamps = new Dictionary<string, ulong>();
     }
 
     /// <summary>
@@ -49,7 +55,7 @@ public class InputBuffer : Node
 
             if (_keyboardTimestamps.ContainsKey(scancode))
             {
-                // The Time.GetTicksMsec() value will wrap after roughly 500 million years. TODO: Implement a very slow 
+                // The Time.GetTicksMsec() value will wrap after roughly 500 million years. TODO: Implement a very slow
                 // memory leak so the game crashes before that happens.
                 _keyboardTimestamps[scancode] = Time.GetTicksMsec();
             }
@@ -74,20 +80,35 @@ public class InputBuffer : Node
                 _joypadTimestamps.Add(buttonIndex, Time.GetTicksMsec());
             }
         }
+        else if (@event is InputEventJoypadMotion)
+        {
+            InputEventJoypadMotion eventJoypadMotion = @event as InputEventJoypadMotion;
+            if (Math.Abs(eventJoypadMotion.AxisValue) < JOY_DEADZONE) return;
+
+            string axisCode = eventJoypadMotion.Axis + "_" + Math.Sign(eventJoypadMotion.AxisValue);
+            if (_joymotionTimestamps.ContainsKey(axisCode))
+            {
+                _joymotionTimestamps[axisCode] = Time.GetTicksMsec();
+            }
+            else
+            {
+                _joymotionTimestamps.Add(axisCode, Time.GetTicksMsec());
+            }
+        }
     }
 
     /// <summary>
-    /// Returns whether any of the keyboard keys or joypad buttons in the given action were pressed within the buffer 
+    /// Returns whether any of the keyboard keys or joypad buttons in the given action were pressed within the buffer
     /// window.
     /// </summary>
     /// <param name="action"> The action to check for in the buffer. </param>
     /// <returns>
-    /// True if any of the action's associated keys/buttons were pressed within the buffer window, false otherwise. 
+    /// True if any of the action's associated keys/buttons were pressed within the buffer window, false otherwise.
     /// </returns>
     public static bool IsActionPressBuffered(string action)
     {
         /*
-        Get the inputs associated with the action. If any one of them was pressed in the last BUFFER_WINDOW 
+        Get the inputs associated with the action. If any one of them was pressed in the last BUFFER_WINDOW
         milliseconds, the action is buffered.
         */
         foreach (InputEvent @event in InputMap.GetActionList(action))
@@ -120,12 +141,23 @@ public class InputBuffer : Node
                     }
                 }
             }
+            else if (@event is InputEventJoypadMotion)
+            {
+                InputEventJoypadMotion eventJoypadMotion = @event as InputEventJoypadMotion;
+                if (Math.Abs(eventJoypadMotion.AxisValue) < JOY_DEADZONE) return false;
+
+                string axisCode = eventJoypadMotion.Axis + "_" + Math.Sign(eventJoypadMotion.AxisValue);
+                if (_joymotionTimestamps.ContainsKey(axisCode))
+                {
+                    ulong delta = Time.GetTicksMsec() - _joymotionTimestamps[axisCode];
+                    if (delta <= BUFFER_WINDOW)
+                    {
+                        InvalidateAction(action);
+                        return true;
+                    }
+                }
+            }
         }
-        /* 
-        If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to 
-        generalize the repetitive keyboard/joypad code into something that works for any input method. Until then, by 
-        the YAGNI principle, the repetitive stuff stays >:)
-        */
 
         return false;
     }
@@ -155,6 +187,15 @@ public class InputBuffer : Node
                 if (_joypadTimestamps.ContainsKey(buttonIndex))
                 {
                     _joypadTimestamps[buttonIndex] = 0;
+                }
+            }
+            else if (@event is InputEventJoypadMotion)
+            {
+                InputEventJoypadMotion eventJoypadMotion = @event as InputEventJoypadMotion;
+                var axisCode = eventJoypadMotion.Axis + "_" + eventJoypadMotion.AxisValue;
+                if (_joymotionTimestamps.ContainsKey(axisCode))
+                {
+                    _joymotionTimestamps[axisCode] = 0;
                 }
             }
         }
