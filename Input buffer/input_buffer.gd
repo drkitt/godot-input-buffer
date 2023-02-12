@@ -72,9 +72,6 @@ func is_action_press_buffered(action: String) -> bool:
 				if delta <= BUFFER_WINDOW:
 					_invalidate_action(action)
 					return true
-	# If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to generalize
-	# the repetitive keyboard/joypad code into something that works for any input method. Until then, by the YAGNI 
-	# principle, the repetitive stuff stays >:)
 	
 	return false
 
